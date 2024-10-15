@@ -1,0 +1,77 @@
+.container {
+  max-width: 1200px;  
+  width: 80%;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.login-card {
+  background-color: white;
+  padding: 24px;
+  width: 50%;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+.login-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #303f9f;
+  text-align: center;
+}
+.label {
+  font-size: 16px;
+}
+.full-width {
+  width: 100%;
+}
+.form-field-container,
+.login-title,
+.login-button {
+  margin-bottom: 16px;
+}
+
+.login-button {
+  background-color: #303f9f;
+  border: none;
+  border-radius: 4px;
+  padding: 12px 24px;
+  display: block;
+  width: 100%;
+  color: white;
+  font-size: 16px;
+}
+span {
+  color: #303f9f;
+  text-decoration: underline;
+  font-weight: 700;
+}
+.login-button:hover,
+span:hover {
+  opacity: 0.9;
+}
+
+p {
+  font-weight: lighter;
+  color:black
+
+}
+input{
+  border: 1px solid grey;
+}
+.error{
+  font-size: 14px;
+  color:red;
+}
+
+/* .ng-valid[required], .ng-valid.required  {
+  color:black;
+  opacity:0.5
+} */
+
+.ng-invalid:not(.email-input)  {
+  /* color: red; */
+  font-size: 14px;
+ 
+}
