@@ -1,0 +1,130 @@
+
+<div class="table-container">
+  <h2>Clients' Tabular Data</h2>
+
+  <div class="tool-bar-container">
+    <mat-toolbar class="mat-toolbar">
+      <span>
+        <!-- Filter input -->
+        <mat-form-field>
+          <mat-label>Search Clients</mat-label>
+          <input
+            matInput
+            (keyup)="applyFilter($event)"
+            placeholder="Type here to filter"
+            class="filter-input"
+          />
+        </mat-form-field>
+      </span>
+
+      <span>
+        <lucide-angular [size]="size" [img]="deleteIcon" class="my-icon" title="delete" (click)="deleteSelectedClients()"></lucide-angular>
+      </span>
+
+      <span>
+        <lucide-angular
+          [img]="disableIcon"
+          class="my-icon"
+          title="disable"
+          [size]="size"
+        ></lucide-angular>
+      </span>
+      <span>
+        <lucide-angular  [size]="size" [img]="downLoadIcon" class="my-icon" title="download"></lucide-angular>
+      </span>
+    </mat-toolbar>
+  </div>
+
+  <!-- Table -->
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <!-- Checkbox Column -->
+    <ng-container matColumnDef="select">
+      <th mat-header-cell *matHeaderCellDef class="check-box">
+        <mat-checkbox
+          (change)="$event ? masterToggle() : null"
+          [checked]="isAllSelected()"
+          [indeterminate]="selection.hasValue() && !isAllSelected()"
+        >
+        </mat-checkbox>
+      </th>
+      <td mat-cell *matCellDef="let row">
+        <mat-checkbox
+          (click)="$event.stopPropagation()"
+          (change)="$event ? selection.toggle(row) : null"
+          [checked]="selection.isSelected(row)"
+        >
+        </mat-checkbox>
+      </td>
+    </ng-container>
+
+    <!-- First Name Column -->
+    <ng-container matColumnDef="firstName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>First Name</th>
+      <td mat-cell *matCellDef="let client">{{ client.firstName }}</td>
+    </ng-container>
+
+    <!-- Last Name Column -->
+    <ng-container matColumnDef="lastName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+      <td mat-cell *matCellDef="let client">{{ client.lastName }}</td>
+    </ng-container>
+
+    <!-- Phone Number Column -->
+    <ng-container matColumnDef="phoneNumber">
+      <th mat-header-cell *matHeaderCellDef>Phone No</th>
+      <td mat-cell *matCellDef="let client">{{ client.phoneNumber }}</td>
+    </ng-container>
+
+    <!-- Date of Birth Column with sorting -->
+    <!-- <ng-container matColumnDef="dateOfBirth">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Age</th>
+      <td mat-cell *matCellDef="let client">
+        {{ getAge(client.dateOfBirth) }}
+      </td>
+    </ng-container> -->
+
+    <!-- City Column -->
+    <!-- <ng-container matColumnDef="city">
+      <th mat-header-cell *matHeaderCellDef>City</th>
+      <td mat-cell *matCellDef="let client">{{ client.city }}</td>
+    </ng-container> -->
+
+    <!-- Last Seen Column with sorting -->
+    <ng-container matColumnDef="lastLoginTime">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Login Time</th>
+      <td mat-cell *matCellDef="let client">
+        {{ client.lastLoginTime | date : "short" }}
+      </td>
+    </ng-container>
+
+    <!-- Active Column -->
+    <ng-container matColumnDef="active">
+      <th mat-header-cell *matHeaderCellDef>
+        <mat-form-field>
+          <mat-label>Acc Status</mat-label>
+          <select matNativeControl required  (change)="applyStatusFilter($event)">
+            <option value="All">All</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+          </select>
+        </mat-form-field>
+      </th>
+      <td mat-cell *matCellDef="let client">
+        {{ client.active ? "Active" : "Inactive" }}
+      </td>
+    </ng-container>
+
+    <!-- Table Headers -->
+    <tr mat-header-row *matHeaderRowDef="tableColumns"></tr>
+
+    <!-- Table Rows -->
+    <!-- NB:This is where I will place the event listener to interact with the row data -->
+    <tr mat-row *matRowDef="let row; columns: tableColumns"></tr>
+  </table>
+
+  <!-- Pagination -->
+  <mat-paginator
+    [pageSizeOptions]="[10, 15, 20]"
+    showFirstLastButtons
+  ></mat-paginator>
+</div>

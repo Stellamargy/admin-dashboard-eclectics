@@ -1,0 +1,39 @@
+
+.footer {
+    background-color: rgb(0, 0, 255);
+    padding: 20px;
+    margin-top: 40px;
+    color: white;
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center; /* Center the content vertically */
+    text-align: center;
+    width: 100%; /* Full width across the page */
+    position: relative;
+  }
+  
+  .footer .content {
+    max-width: 1200px; /* Restricting width of content for better readability */
+    width: 100%;
+  }
+  
+  .footer .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .footer .row .division {
+    flex: 1;
+    margin: 10px;
+  }
+  
+  .footer .social-icons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+  }
+   
+  

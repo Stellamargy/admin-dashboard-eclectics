@@ -1,0 +1,54 @@
+.table-container {
+  /* width: 95%;
+  margin: 0 auto; */
+  padding: 10px; /* Adds some inner padding  */
+  overflow-y: auto;
+  max-height: 60vh; 
+
+}
+ th{
+  position: sticky;
+  top:0;
+ }
+  .check-box{
+    z-index: 1000;
+  }
+  /* Optional: Style for the scrollbar */
+  .table-container::-webkit-scrollbar {
+    width: 10px;
+  }
+   
+  .table-container::-webkit-scrollbar-thumb {
+    background-color: #b0bec5; /* Custom scrollbar color */
+    border-radius: 4px;
+  }
+  
+  .table-container::-webkit-scrollbar-track {
+    background: #f0f0f0; /* Track background color */
+  }
+  .table-container h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center; /* Center-aligns the heading */
+  } 
+ .tool-bar-container{
+  margin-bottom: 15px;
+ }
+ .mat-toolbar{
+  
+  display:flex;
+  justify-items: center;
+  align-items: center;
+  height:90px;
+ }
+ span{
+  margin-left:10px;
+ }
+ .my-icon{
+  color:#333;
+ }
+ .my-icon:hover{
+  color:blue;
+ }

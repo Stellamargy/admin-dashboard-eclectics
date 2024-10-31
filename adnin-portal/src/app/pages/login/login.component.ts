@@ -1,4 +1,4 @@
-import { Component,Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,10 +9,9 @@ import {
   Validators,
 } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { LoginService } from '../services/login.service';
-import { AuthService } from '../services/auth.service';
-
-
+import { AuthService } from '../../core/services/auth.service';
+import { Router } from '@angular/router';
+import { error } from 'console';
 
 @Component({
   selector: 'app-login',
@@ -28,12 +27,20 @@ import { AuthService } from '../services/auth.service';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  // errormessage set to null by default
+  errorMessage: string | null = null;
   // injects the loginservice to login component
-  constructor(private loginservice:LoginService, private authservice: AuthService ) {}
+  constructor(
+   private authservice: AuthService,
+   private router: Router
+  ) {}
 
   logInForm = new FormGroup({
-    email: new FormControl(' ', [Validators.email, Validators.required]),
-    password: new FormControl(' ', [Validators.minLength(6), Validators.required]),
+    email: new FormControl('', [Validators.email, Validators.required]),
+    password: new FormControl('', [
+      Validators.minLength(4),
+      Validators.required,
+    ]),
   });
 
   // Getter for the email control
@@ -45,27 +52,29 @@ export class LoginComponent {
   get password() {
     return this.logInForm.get('password')!;
   }
-  
+
   onSubmit() {
     if (this.logInForm.valid) {
       const credentials = {
-        email: this.logInForm.value.email || '', // Fallback to an empty string if null
-        password: this.logInForm.value.password || '' // Fallback to an empty string if null
+        email: this.email.value || '', // Fallback to an empty string if null
+        password: this.password.value || '', // Fallback to an empty string if null
       };
-      this.loginservice.login(credentials).subscribe({
+      this.authservice.login(credentials).subscribe({
         next: (response) => {
           // Store token and user ID in session storage
-          
-          this.authservice.setSession(response.token,response.userId)
-          console.log("Successful" , response)
-          // add navigation here
+
+          this.authservice.setSession(response.token, response.id);
+          console.log('Successful', response.id);
+          this.router.navigate(['/dashboard']);
         },
-        error: (err) => {
-          console.error('Login failed', err);
+        error: (error) => {
+          
+          if (error.error){
+            console.error('Error details:', error.error);
+            this.errorMessage=error.error
+          }
         },
       });
-
-    
+    }
   }
-}
 }

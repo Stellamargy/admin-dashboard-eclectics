@@ -1,0 +1,30 @@
+<section class="wrapper">
+  <h2><span>Manage </span>Account</h2>
+  <mat-tab-group animationDuration="2000ms">
+    <mat-tab label="Profile">
+      <mat-card class="profile-card" appearance="outlined">
+        <app-profile-picture></app-profile-picture>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+          <ul>
+            <li>{{ admin.name }}</li>
+            <li>
+              <a href="mailto:stellahmargy&#64;gmail.com">{{ admin.email }}</a>
+            </li>
+            <li>
+              <a href="tel:+254719529449">{{ admin.phoneNumber }}</a>
+            </li>
+            <li>Employee Number : {{ admin.employeeNumber }}</li>
+          </ul>
+        </mat-card-content>
+        <mat-card-actions>
+          <button mat-button>Edit Details</button>
+        </mat-card-actions>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="Change Password">
+      <app-change-password></app-change-password>
+    </mat-tab>
+  </mat-tab-group>
+</section>

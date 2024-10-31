@@ -65,13 +65,13 @@ input{
   color:red;
 }
 
-/* .ng-valid[required], .ng-valid.required  {
-  color:black;
-  opacity:0.5
-} */
-
 .ng-invalid:not(.email-input)  {
   /* color: red; */
   font-size: 14px;
  
+}
+.error-message{
+  font-size: 14px;
+  color:red;
+  font-weight: 800;
 }

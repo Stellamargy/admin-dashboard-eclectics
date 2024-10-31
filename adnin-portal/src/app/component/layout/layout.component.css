@@ -1,0 +1,37 @@
+/* app.component.css */
+.main-container {
+  height: 100vh;
+  color: #333;
+  background-color: rgba(208, 210, 219, 0.5);
+  overflow: hidden;
+  display: flex;
+ 
+}
+
+.custom-sidenav {
+  width: 250px; /* Set your desired width */
+  background-color: #011f4b;
+  border-radius: 0px;
+  height: 100%;
+}
+
+.content-area {
+  max-width: 1200px;
+  padding: 40px 0px;
+  flex: 1; /* Allows it to expand */
+  height: 100vh; /* Matches viewport height */
+  overflow-y: auto;
+  
+}
+
+.content {
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.4); 
+  padding:20px;
+  width: 90%;
+  margin: 0 auto; /* Center the content horizontally */
+  border-radius:4px;
+  background-color: white;
+
+  box-sizing: border-box; /* Ensures padding doesn’t affect total width/height */
+
+}

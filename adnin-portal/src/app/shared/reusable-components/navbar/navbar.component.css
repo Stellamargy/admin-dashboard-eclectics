@@ -1,0 +1,48 @@
+/* Style for each list item */
+mat-list-item {
+  margin-bottom: 4px ; /* Margin between each item */
+  border-radius:0px !important;
+  
+}
+/* Change background color on hover */
+mat-list-item:hover {
+  background-color: #00539F; /* Lighter background on hover */
+}
+/* Style for the links */
+a {
+  display: flex; /* Flexbox for aligning icon and text */
+  align-items: center; /* Center items vertically */
+  text-decoration: none; /* Remove underline from links */
+  color: white; /* Text color */
+  padding: 6px 10px; /* Padding around links */
+  border-radius: 4px; /* Rounded corners */
+  transition: background-color 0.3s; /* Transition effect */
+ 
+ 
+
+
+}
+ /* a:hover{
+  background-color: ;
+ } */
+span{
+  font-size: 14px;
+}
+
+/* Style for the icons */
+.my-icon {
+
+  margin-right: 6px; /* Space between the icon and text */
+}
+
+/* Active link style */
+.active-link {
+  font-weight: bold; /* Bold text for active links */
+   background-color: white;
+  /* Change text color for active links */
+  color: #011f4b;
+}
+
+.active-link:hover{
+  background-color: white;
+}

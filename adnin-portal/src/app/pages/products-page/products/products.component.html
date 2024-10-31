@@ -1,0 +1,28 @@
+<div class="services-container">
+<h1>Services</h1>
+<div class="services">
+    <mat-grid-list cols="2" rowHeight="2:1">
+        <mat-grid-tile *ngFor="let service of services">
+            <mat-card class="example-card" appearance="outlined" >
+                <mat-card-header>
+                  <div mat-card-avatar class="example-header-image"><img [src]="service.photoPath" alt=""></div>
+                  <mat-card-title>{{service.serviceName}}</mat-card-title>
+                  
+                </mat-card-header>
+                <mat-card-content>
+                  <p>
+                  {{service.description}}
+                  </p>
+                </mat-card-content>
+                <mat-card-actions>
+                  <button mat-button>UPDATE</button>
+                  <button mat-button (click)="onDelete(service.id)">DELETE</button>
+                </mat-card-actions>
+              </mat-card>
+        </mat-grid-tile>
+        
+      </mat-grid-list>
+      
+</div>
+</div>
+    

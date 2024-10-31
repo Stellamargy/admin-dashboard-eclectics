@@ -1,0 +1,21 @@
+<mat-nav-list class="navigation-container">
+  <mat-list-item *ngFor="let navigationDataLink of navigationDataLinks" routerLinkActive="active-link">
+    <a
+      *ngIf="navigationDataLink.label !== 'LogOut'; else logoutTemplate"
+      [routerLink]="navigationDataLink.path"
+      routerLinkActive="active-link"
+    >
+      <lucide-angular [img]="navigationDataLink.icon" class="my-icon" [size]="size"></lucide-angular>
+      <span>{{ navigationDataLink.label }}</span>
+    </a>
+    <ng-template #logoutTemplate>
+      <a (click)="logout()" style="cursor:pointer;">
+        <lucide-angular [img]="navigationDataLink.icon" class="my-icon"></lucide-angular>
+        <span>{{ navigationDataLink.label }}</span>
+      </a>
+    </ng-template>
+  </mat-list-item>
+</mat-nav-list>
+
+
+
