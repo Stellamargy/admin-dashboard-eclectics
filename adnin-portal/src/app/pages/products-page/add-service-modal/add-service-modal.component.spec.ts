@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ProfilePictureComponent } from './profile-picture.component';
+import { AddServiceModalComponent } from './add-service-modal.component';
 
-describe('ProfilePictureComponent', () => {
-  let component: ProfilePictureComponent;
-  let fixture: ComponentFixture<ProfilePictureComponent>;
+describe('AddServiceModalComponent', () => {
+  let component: AddServiceModalComponent;
+  let fixture: ComponentFixture<AddServiceModalComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProfilePictureComponent]
+      imports: [AddServiceModalComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(ProfilePictureComponent);
+    fixture = TestBed.createComponent(AddServiceModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

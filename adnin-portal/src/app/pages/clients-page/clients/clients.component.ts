@@ -18,6 +18,7 @@ import {
   MegaphoneOff,
 } from 'lucide-angular';
 import { forkJoin } from 'rxjs';
+import { MatTableExporterModule } from 'mat-table-exporter';
 
 @Component({
   selector: 'app-clients',
@@ -30,7 +31,7 @@ import { forkJoin } from 'rxjs';
     MatInputModule,
     MatCheckboxModule,
     MatToolbarModule,
-   
+    MatTableExporterModule,
     CommonModule,
     LucideAngularModule,
   ],

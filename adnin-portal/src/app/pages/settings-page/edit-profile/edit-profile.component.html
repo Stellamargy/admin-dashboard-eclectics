@@ -1,0 +1,39 @@
+<h2 mat-dialog-title>Edit Profile</h2>
+<mat-dialog-content >
+  <form [formGroup]="editForm">
+    <mat-form-field >
+        <mat-label>Name</mat-label>
+        <input matInput formControlName="name" />
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput formControlName="email" type="email" />
+        <mat-error *ngIf="editForm.get('email')?.hasError('email')">
+          Please enter a valid email address
+        </mat-error>
+      </mat-form-field>
+    
+      <mat-form-field>
+        <mat-label>Phone Number</mat-label>
+        <input matInput formControlName="phoneNumber" type="tel" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Employee Number</mat-label>
+        <input matInput formControlName="employeeNumber" type="tel" readonly />
+        <mat-hint>Read Only</mat-hint>
+      </mat-form-field>
+    
+      <!-- File Input for Profile Photo -->
+      <div>
+        <label for="profile-photo">Profile Photo</label>
+      <input id="profile-photo" type="file" (change)="onFileSelected($event)" />
+      </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="onCancel()">Cancel</button>
+  <button mat-button color="primary" (click)="onSave()">Save</button>
+</mat-dialog-actions>

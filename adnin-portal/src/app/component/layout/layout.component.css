@@ -2,7 +2,7 @@
 .main-container {
   height: 100vh;
   color: #333;
-  background-color: rgba(208, 210, 219, 0.5);
+  background-color: #D0D2DB;
   overflow: hidden;
   display: flex;
  
@@ -31,7 +31,7 @@
   margin: 0 auto; /* Center the content horizontally */
   border-radius:4px;
   background-color: white;
-
-  box-sizing: border-box; /* Ensures padding doesn’t affect total width/height */
+  min-height:50vh;
+    box-sizing: border-box; /* Ensures padding doesn’t affect total width/height */
 
 }

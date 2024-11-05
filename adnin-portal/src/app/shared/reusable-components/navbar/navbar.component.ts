@@ -39,7 +39,7 @@ export class NavbarComponent {
     { path: '/drivers', label: 'Drivers', icon: CarTaxiFront },
     { path: '/clients', label: 'Clients', icon: UserRound },
     { path: '/organizations', label: 'Organizations', icon: HandshakeIcon },
-    { path: '/products', label: 'Products', icon: ShoppingCart },
+    { path: '/products', label: 'Services', icon: ShoppingCart },
     { path: '/revenue', label: 'Revenue', icon: HandCoins },
     { path: '/feedback', label: 'Feedback', icon: MessageCircle },
     { path: '/geography', label: 'Geography', icon: MapPin },

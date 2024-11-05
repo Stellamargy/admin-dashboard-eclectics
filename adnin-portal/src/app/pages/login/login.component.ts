@@ -30,15 +30,12 @@ export class LoginComponent {
   // errormessage set to null by default
   errorMessage: string | null = null;
   // injects the loginservice to login component
-  constructor(
-   private authservice: AuthService,
-   private router: Router
-  ) {}
+  constructor(private authservice: AuthService, private router: Router) {}
 
   logInForm = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required]),
     password: new FormControl('', [
-      Validators.minLength(4),
+      Validators.minLength(6),
       Validators.required,
     ]),
   });
@@ -68,10 +65,13 @@ export class LoginComponent {
           this.router.navigate(['/dashboard']);
         },
         error: (error) => {
-          
-          if (error.error){
+          if (error.error) {
             console.error('Error details:', error.error);
-            this.errorMessage=error.error
+            console.error('Error details:', error.error);
+            // Set errorMessage with error.error.message if available; otherwise, fallback to error.error
+            this.errorMessage = error.error.message || error.error;
+          }else {
+            this.errorMessage ="An unexpected error occurred. Please try again."
           }
         },
       });

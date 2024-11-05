@@ -1,14 +1,98 @@
-h1{ 
-    font-size:24px;
-    font-weight:900;
-}
-img{
-    width:100%;
-    height: 100%;
-}   
 
-.services-container{
-    margin: 0 auto;
-    width:90%;
+h1{
+    font-size: 24px;
+    font-weight: 600;
+    color:#333;
+    margin-bottom: 0px;
+   
 }
+.services-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    
+}
+  
+  .services {
+    width: 100%;
+    max-width: 1200px; /* Adjust as needed */
+  }
+  
+  mat-grid-list {
+    width: 100%;
+  }
+  
+  mat-grid-tile {
+    padding: 0; /* Remove padding to make tiles compact */
+  }
+  
+  .example-card {
+    width: 100%; /* Make cards fill the grid tile width */
+    margin: 0; /* Remove any extra margin */
+  }
+  
+  mat-card-header {
+    padding-bottom: 8px; /* Adjust padding to make it more compact */
+  }
+  
+  mat-card-content {
+    font-size: 0.9em; /* Slightly smaller font for compactness */
+    line-height: 1.4;
+  }
+  
+  mat-card-actions {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 16px;
+  }
+  .example-header-image img {
+    width: 48px; /* Set a consistent width */
+    height: 48px; /* Set a consistent height */
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+    border: 2px solid #e0e0e0; /* Adds a subtle border */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1); /* Adds a light shadow */
+  }
+  
+  .example-card {
+    margin: 8px; /* Adjust as needed */
+    width: calc(100% - 16px); /* To ensure card fits within tile with margin */
+    transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth transition for effects */
+  }
+  .example-card:hover {
+    transform: translateY(-5px); /* Slight lift effect */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Enhanced shadow on hover */
+    cursor: pointer;
+  }
+  mat-card-header {
+    display: flex;
+    align-items: center; /* Vertically centers the content */
+  }
+  
+  .example-header-image {
+    margin-right: 8px; /* Adds some space between the image and the title */
+  }
+ 
+  
+  .example-card:hover mat-card-title {
+    color: #3f51b5; /* Optional: Change title color on hover */
+  }
 
+/* Compact styling for SweetAlert2 dialogs */
+.swal2-compact-title {
+    font-size: 1em;       /* Smaller font size for title */
+    margin-bottom: 0.5em; /* Less space below title */
+  }
+  
+  .swal2-compact-popup {
+    padding: 1em;         /* Reduce popup padding */
+  }
+  
+  .swal2-compact-actions .swal2-confirm,
+  .swal2-compact-actions .swal2-cancel {
+    padding: 0.4em 1em;   /* Smaller button padding */
+    font-size: 0.9em;     /* Reduce button font size */
+  }
+  span{
+    font-weight: 700;
+  }

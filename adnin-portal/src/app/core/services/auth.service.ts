@@ -59,6 +59,15 @@ export class AuthService {
     });
   } 
 
+  
+  getAuthHeadersFormData(): HttpHeaders {
+    return new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`,
+      'UserId': `${this.getUserId()}`,
+     
+    });
+  } 
+
  
  
   login(credentials: { email: string; password: string }): Observable<{ token: string; id: number }> {

@@ -18,25 +18,37 @@
       </span>
 
       <span>
-        <lucide-angular [size]="size" [img]="deleteIcon" class="my-icon" title="delete" (click)="deleteSelectedClients()"></lucide-angular>
+        <lucide-angular [size]="size" [img]="deleteIcon" class="my-icon" title="delete account" (click)="deleteSelectedClients()"></lucide-angular>
       </span>
 
       <span>
         <lucide-angular
           [img]="disableIcon"
           class="my-icon"
-          title="disable"
+          title="deactivate account"
           [size]="size"
         ></lucide-angular>
       </span>
       <span>
-        <lucide-angular  [size]="size" [img]="downLoadIcon" class="my-icon" title="download"></lucide-angular>
+        <!-- download icon CSV -->
+        <lucide-angular  [size]="size" [img]="downLoadIcon" class="my-icon" title="download CSV" (click)="exporter.exportTable('csv')" ></lucide-angular>
       </span>
+      <span>
+        <!-- download icon Excel -->
+        <lucide-angular  [size]="size" [img]="downLoadIcon" class="my-icon" title="download Excel"></lucide-angular>
+      </span>
+      <span>
+        <!-- download icon  Pdf-->
+        <lucide-angular  [size]="size" [img]="downLoadIcon" class="my-icon" title="download Pdf"></lucide-angular>
+      </span>
+      
+      
+      
     </mat-toolbar>
   </div>
 
   <!-- Table -->
-  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"  matTableExporter #exporter="matTableExporter">
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">
       <th mat-header-cell *matHeaderCellDef class="check-box">
