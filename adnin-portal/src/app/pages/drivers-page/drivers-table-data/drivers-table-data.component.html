@@ -90,7 +90,7 @@
       <!-- Table Header and Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       
-      <tr mat-row *matRowDef="let row; columns: displayedColumns" ></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" (click)="viewDriver(row)" ></tr>
     </table>
   </div>
 </div>

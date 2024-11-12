@@ -13,6 +13,9 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatSelectChange } from '@angular/material/select';
+import { Router } from '@angular/router';
+
+
 
 
 
@@ -57,7 +60,7 @@ export class DriversTableDataComponent {
  regStatusFilterValue:string='all'
  
  
-  constructor(private driverService: DriversService) {
+  constructor(private driverService: DriversService , private router :Router) {
     this.dataSource = new MatTableDataSource();
     this.selection=new SelectionModel<Driver>(true,[ ])
   } 
@@ -115,6 +118,7 @@ onSearch(event:Event):void{
 // dropdown filter value
 applyStatusFilter(event:MatSelectChange):void{
   this.regStatusFilterValue=event.value;
+ 
  this.dataSource.filter=this.regStatusFilterValue
 
 
@@ -140,6 +144,12 @@ customFilter(){
     );
   };
 };
+
+// navigate to a driver page
+viewDriver(driver:Driver):void{
+  this.router.navigate(['/driver' ,driver.id])
+
+}
 }
 
 
