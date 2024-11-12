@@ -54,7 +54,7 @@ export class DriversTableDataComponent {
 
  // filter and search value
  searchInput:string="";
- 
+ regStatusFilterValue:string='all'
  
  
   constructor(private driverService: DriversService) {
@@ -104,7 +104,7 @@ export class DriversTableDataComponent {
   }
 }
 //search filter value
-onSearch(event:Event){
+onSearch(event:Event):void{
     this.searchInput = (event.target as HTMLInputElement).value;
     this.dataSource.filter=this.searchInput
     
@@ -112,18 +112,25 @@ onSearch(event:Event){
 
 }
 
+// dropdown filter value
+applyStatusFilter(event:MatSelectChange):void{
+  this.regStatusFilterValue=event.value;
+ this.dataSource.filter=this.regStatusFilterValue
+
+
+}
 
 // custom filter
 customFilter(){
   this.dataSource.filterPredicate = (record: Driver, filter: string) => {
     // Check for status filter (active, inactive, or all)
-    // if (filter === 'all') {
-    //   return true;
-    // } else if (filter === 'active') {
-    //   return record.active === true;
-    // } else if (filter === 'inactive') {
-    //   return record.active === false;
-    // }
+    if (filter === 'all') {
+      return true;
+    } else if (filter === 'pending') {
+      return record.status==='pending'
+    } else if (filter === 'rejected') {
+      return record.status==="rejected";
+    }
 
     // Default filter for firstName, lastName, or phoneNumber
     return (

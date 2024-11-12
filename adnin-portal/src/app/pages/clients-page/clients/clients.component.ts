@@ -35,7 +35,7 @@ import { Router } from '@angular/router';
     MatButtonModule,
   ],
   templateUrl: './clients.component.html',
-  styleUrls: ['./clients.component.css'],
+  styleUrl: './clients.component.css',
 })
 export class ClientsComponent implements OnInit {
   constructor(private clientService: ClientsService,private router:Router) {}

@@ -60,7 +60,7 @@
           <th mat-header-cell *matHeaderCellDef>
             <mat-form-field >
               <mat-label>Reg Status</mat-label>
-              <mat-select required>
+              <mat-select required (selectionChange)="applyStatusFilter($event)">
                 <mat-option value="all">All</mat-option>
                 <mat-option value="pending">Pending</mat-option>
                 <mat-option value="rejected">Rejected</mat-option>
@@ -89,7 +89,8 @@
 
       <!-- Table Header and Row -->
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      
+      <tr mat-row *matRowDef="let row; columns: displayedColumns" ></tr>
     </table>
   </div>
 </div>
