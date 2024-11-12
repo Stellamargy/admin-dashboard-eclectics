@@ -49,7 +49,7 @@ export class ProductsComponent {
         console.error('Error fetching services data', error);
       },
       complete: () => {
-        console.log('Profile data fetching completed.');
+        console.log('fetching completed.');
       },
     });
   }

@@ -43,7 +43,7 @@ export class UpdateServiceModalComponent {
       description: [service.description, Validators.required],
       price: [service.price, Validators.required],
       distance: [service.distance, Validators.required],
-      file: [null, Validators.required],
+      file: [null, ],
     });
   }
   // handling file submission

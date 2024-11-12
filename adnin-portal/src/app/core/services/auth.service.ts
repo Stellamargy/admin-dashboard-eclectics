@@ -51,13 +51,13 @@ export class AuthService {
   }
 
   // Get Authorization headers for API requests
-  getAuthHeaders(): HttpHeaders {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.getToken()}`,
-      'UserId': `${this.getUserId()}`
-    });
-  } 
+    getAuthHeaders(): HttpHeaders {
+      return new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${this.getToken()}`,
+        'UserId': `${this.getUserId()}`
+      });
+    } 
 
   
   getAuthHeadersFormData(): HttpHeaders {

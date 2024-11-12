@@ -1,4 +1,33 @@
-
-h3{
-    font-size: 18px;
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
 }
+table {
+  width: 100%;
+}
+
+.search-input {
+    padding:10px 15px;
+    border-radius: 4px;
+    border:1px solid #D0D2DB;
+}
+.search-input:focus {
+    /* Your styles here */
+    outline: 2px solid #4A90E2; /* Example for blue outline */
+    background-color: #f0f8ff; /* Example for light background color */
+    /* Add any additional styles */
+  }
+  select {
+    padding: 4px 6px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    color: #333;
+    appearance: none; /* Remove default styling in some browsers */
+  }
+  
+  
+  
+  
+

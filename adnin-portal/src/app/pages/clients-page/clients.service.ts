@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Client } from './client.model';
 import { AuthService } from '../../core/services/auth.service';
+import { clientResponse } from './clients.response';
 
 @Injectable({
   providedIn: 'root'
@@ -16,9 +17,9 @@ export class ClientsService {
   }
 
 //  get all clients
-  getClients(): Observable<Client[]> {
+  getClients(): Observable<clientResponse> {
     const headers=this.auth.getAuthHeaders()
-    return this.http.get<Client[]>(`${this.gethost()}/api/open/customers`,{headers});
+    return this.http.get<clientResponse>(`${this.gethost()}/api/open/customers`,{headers});
   }
 // deleting users
 
@@ -27,4 +28,22 @@ deleteClientById(clientId: number): Observable<any> {
   return this.http.delete(`${this.gethost()}/api/open/customers/delete/${clientId}`, { headers });
 }
 
+// deactivate account
+deactivateAccountById(clientId:number):Observable<any>{
+  const headers = this.auth.getAuthHeaders();
+  return this.http.put(`${this.gethost()}/api/open/customers/${clientId}/deactivate`, { headers });
+}
+
+// activate account
+activateAccountById(clientId:number):Observable<any>{
+  const headers = this.auth.getAuthHeaders();
+  return this.http.put(`${this.gethost()}/api/open/customers/${clientId}/activate`, { headers });
+}
+// view single client
+getClientById(id:number):Observable<Client>{
+  const headers = this.auth.getAuthHeaders();
+  return this.http.get<Client>(`${this.gethost()}/api/open/customers/${id}`)
+
+
+}
 }

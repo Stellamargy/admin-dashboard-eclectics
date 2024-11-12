@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { authGuard } from './core/guard/auth.guard';
 import { DashboardComponent } from './pages/dashboard-page/dashboard/dashboard.component';
-import { DriversComponent } from './pages/drivers-page/drivers/drivers.component';
+import { DriversTableDataComponent } from './pages/drivers-page/drivers-table-data/drivers-table-data.component';
 import { ClientsComponent } from './pages/clients-page/clients/clients.component';
 import { OrganizationComponent } from './pages/organization/organization/organization.component';
 import { RevenueComponent } from './pages/revenue-page/revenue/revenue.component';
@@ -12,6 +12,7 @@ import { ProductsComponent } from './pages/products-page/products/products.compo
 import { NavbarComponent } from './shared/reusable-components/navbar/navbar.component';
 import { SettingsComponent } from './pages/settings-page/settings/settings.component';
 import { LayoutComponent } from './component/layout/layout.component';
+import { ClientDetailsComponent } from './pages/clients-page/client-details/client-details.component';
 
 export const routes: Routes = [
   // default path
@@ -28,7 +29,7 @@ export const routes: Routes = [
       },
       {
         path: 'drivers',
-        component: DriversComponent,
+        component: DriversTableDataComponent ,
         canActivate: [authGuard],
       },
       {
@@ -67,6 +68,11 @@ export const routes: Routes = [
         component: SettingsComponent,
         canActivate: [authGuard],
       },
+      {
+        path:'client/:id' ,
+        component:ClientDetailsComponent,
+        canActivate:[authGuard]
+      }
     ],
   },
 

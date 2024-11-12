@@ -45,6 +45,7 @@ export class NavbarComponent {
     { path: '/geography', label: 'Geography', icon: MapPin },
     { path: '/settings', label: 'Settings', icon: Settings },
     { path: null, label: 'LogOut', icon: LogOut },
+    
   ];
  size:number=20
   logout() {

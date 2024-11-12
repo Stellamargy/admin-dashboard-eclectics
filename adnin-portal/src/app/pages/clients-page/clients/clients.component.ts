@@ -5,20 +5,18 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SelectionModel } from '@angular/cdk/collections'; // Import SelectionModel
+import { SelectionModel } from '@angular/cdk/collections';
 import { Client } from '../client.model';
 import { ClientsService } from '../clients.service';
 import { CommonModule } from '@angular/common';
-// import {MatProgressSpinnerModule} from
 import { MatToolbarModule } from '@angular/material/toolbar';
-import {
-  LucideAngularModule,
-  Trash2,
-  ArrowDownToLine,
-  MegaphoneOff,
-} from 'lucide-angular';
+import { LucideAngularModule, Trash2 } from 'lucide-angular';
 import { forkJoin } from 'rxjs';
-import { MatTableExporterModule } from 'mat-table-exporter';
+import { Observable } from 'rxjs';
+// import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatButtonModule } from '@angular/material/button';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clients',
@@ -31,59 +29,65 @@ import { MatTableExporterModule } from 'mat-table-exporter';
     MatInputModule,
     MatCheckboxModule,
     MatToolbarModule,
-    MatTableExporterModule,
+    // MatTableExporterModule,
     CommonModule,
     LucideAngularModule,
+    MatButtonModule,
   ],
   templateUrl: './clients.component.html',
   styleUrls: ['./clients.component.css'],
 })
 export class ClientsComponent implements OnInit {
-  constructor(private clientService: ClientsService) {}
-  // icons
-  deleteIcon = Trash2;
-  downLoadIcon = ArrowDownToLine;
-  disableIcon = MegaphoneOff;
-  // icons size
-  size: number = 24;
-
-  // stores clients data
+  constructor(private clientService: ClientsService,private router:Router) {}
+  // client data
   clients: Client[] = [];
-
-  // stores status filter value-dropdown
   statusFilter: string | undefined;
 
-  // columns to be displayed -from data
   tableColumns: string[] = [
     'select',
     'firstName',
     'lastName',
     'phoneNumber',
-    // 'dateOfBirth',
-    // 'city',
+    'dateOfBirth',
     'lastLoginTime',
     'active',
   ];
 
   dataSource = new MatTableDataSource<Client>();
-  selection = new SelectionModel<Client>(true, []); // Multi-select with SelectionModel
+  selection = new SelectionModel<Client>(true, []);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    this.clientService.getClients().subscribe((data: Client[]) => {
-      this.clients = data;
+    this.clientService.getClients().subscribe((response) => {
+      this.clients = response.data;
+      console.log('here are my clients', this.clients)
       this.dataSource.data = this.clients;
       this.dataSource.paginator = this.paginator;
       this.dataSource.sort = this.sort;
-      // Set the custom filter predicate
-      this.setFilterPredicate(); // Set the filter predicate h
-     
+
+      this.dataSource.filterPredicate = (record: Client, filter: string) => {
+        // Check for status filter (active, inactive, or all)
+        if (filter === 'all') {
+          return true;
+        } else if (filter === 'active') {
+          return record.active === true;
+        } else if (filter === 'inactive') {
+          return record.active === false;
+        }
+
+        // Default filter for firstName, lastName, or phoneNumber
+        return (
+          record.firstName.toLowerCase().includes(filter) ||
+          record.lastName.toLowerCase().includes(filter) ||
+          record.phoneNumber.includes(filter)
+        );
+      };
     });
   }
 
-  // function to calculate age
+  // Function to calculate age
   getAge(dateOfBirth: string): number {
     const birthDate = new Date(dateOfBirth);
     const today = new Date();
@@ -100,56 +104,48 @@ export class ClientsComponent implements OnInit {
     return age;
   }
 
-  // apply text filter
-
+  // Apply text filter
   applyFilter(event: Event): void {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    const filterValue = (event.target as HTMLInputElement).value
+      .trim()
+      .toLowerCase();
+    this.dataSource.filter = filterValue;
   }
-    // Apply dropdown filter - online or offline
-applyStatusFilter(event: Event): void {
-  const selectElement = event.target as HTMLSelectElement;
-  this.statusFilter = selectElement.value;
 
-  // Set the filter to the status filter
-  this.setFilterPredicate(); // Ensure the filter predicate is set before applying the filter
-  this.dataSource.filter = this.statusFilter.toLowerCase(); // Convert to lower case for consistency
-}
+  // Apply dropdown filter - active or inactive
+  applyStatusFilter(event: Event): void {
+    const filterValue = (event.target as HTMLSelectElement).value.toLowerCase();
+    this.statusFilter = filterValue;
+    this.dataSource.filter = this.statusFilter;
+  }
 
-
-public setFilterPredicate(): void {
-  this.dataSource.filterPredicate = (client: Client, filter: string) => {
-    const matchesStatusFilter = 
-      filter === 'all' || 
-      (filter === 'active' && client.active) || 
-      (filter === 'inactive' && !client.active);
-    return matchesStatusFilter;
-  };
-}
-
-
-
-
-  /** Whether the number of selected elements matches the total number of rows */
+  // Whether the number of selected elements matches the total number of rows
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
+  // Selects all rows if they are not all selected; otherwise clear selection
   masterToggle(): void {
     this.isAllSelected()
       ? this.selection.clear()
       : this.dataSource.data.forEach((row) => this.selection.select(row));
   }
- 
 
-  // delete more than one drivers
-  deleteSelectedClients(): void {
-    if (
-      window.confirm('Are you sure you want to delete the selected clients?')
-    ) {
+  // Delete multiple clients
+  // Delete multiple clients
+deleteSelectedClients(): void {
+  Swal.fire({
+    icon: 'question',
+    text: 'Delete Accounts/Account?',
+    showCancelButton: true,
+    cancelButtonColor: 'red',
+    confirmButtonColor: 'green',
+    confirmButtonText: "YES",
+    cancelButtonText: "NO"
+  }).then((result) => {
+    if (result.isConfirmed) {
       const selectedClientIds = this.selection.selected.map(
         (client) => client.id
       );
@@ -166,17 +162,157 @@ public setFilterPredicate(): void {
             );
             this.dataSource.data = this.clients;
             this.selection.clear();
+            Swal.fire({
+              icon:'success',
+              text:'Accounts/Account Deleted Successfully'
+            })
           },
-          error: (err) => console.error('Error deleting clients:', err),
+          error: (err) => {
+            console.error('Error deleting clients:', err)
+            Swal.fire({
+              icon:'error',
+              text:'Error Deleting Account/Accounts'
+            })
+          },
         });
       }
+    }else{
+      this.selection.clear();
     }
-  }
+  });
+}
+
+
    
 
+  // deactivate accounts or  accounts
+  deactiveSelectedAccounts(): void {
+    Swal.fire({
+      icon: 'question',
+      text: 'Deactivate Accounts/Account?',
+      showCancelButton: true,
+      cancelButtonColor: 'red',
+      confirmButtonColor: 'green',
+      confirmButtonText: "YES",
+      cancelButtonText: "NO"
+    }).then((result)=>{
+      if(result.isConfirmed){
+        //logic here
+        // returns an array of selected ids
+    const selectedClientAcc = this.selection.selected.map(
+      (client) => client.id
+    );
+    // checks if a column or columns are selected
+    if (selectedClientAcc.length > 0) {
+      // an array of observable-multiple delete requests
+      const deactivateAccRequest = selectedClientAcc.map((id) =>
+        this.clientService.deactivateAccountById(id)
+      );
+
+      // Use forkJoin to send all requests together
+      forkJoin(deactivateAccRequest).subscribe({
+        next: () => {
+          // Update the client list and data source after deactivation
+          this.clients = this.clients.map((client) => {
+            if (selectedClientAcc.includes(client.id)) {
+              client.active = false; // Mark the client as inactive in the table
+            }
+            return client;
+          });
+          this.dataSource.data = this.clients;
+          this.selection.clear();
+          Swal.fire({
+            icon:'success',
+            text:'Accounts/Account Deactivated Successfully'
+          })
+        },
+        error: (error) => {
+          if (error) {
+            console.log('Error deactivating accounts', error);
+            Swal.fire({
+              icon:'error',
+              text:'Error Deactivating Account/Accounts'
+            })
+          }
+        },
+        complete: () => {
+          console.log('Deactivation completed!');
+        },
+      });
+    }
+
+      }else{
+        this.selection.clear()
+      }
+    })
+    
+  }
+  //  activating accounts
+  activateSelectedAcc(): void {
+
+    Swal.fire({
+      icon: 'question',
+      text: 'Activate Accounts/Account?',
+      showCancelButton: true,
+      cancelButtonColor: 'red',
+      confirmButtonColor: 'green',
+      confirmButtonText: "YES",
+      cancelButtonText: "NO"
+    }).then((result)=>{
+      if(result.isConfirmed){
+        //logic here
+        // get the selected accounts id
+    const selectedAccountId = this.selection.selected.map(
+      (client) => client.id
+    );
+    if (selectedAccountId.length > 0) {
+      // multiple activate account request
+      const selectedAccountReq = selectedAccountId.map((id) =>
+        this.clientService.activateAccountById(id)
+      );
+      // use forkjoin to send multiple requests
+      forkJoin(selectedAccountReq).subscribe({
+        next: () => {
+          //if successful update the Ui
+          this.clients = this.clients.map((client) => {
+            if (selectedAccountId.includes(client.id)) {
+              client.active = true; // Mark the client as active in the table
+            }
+            return client;
+          });
+          this.dataSource.data = this.clients;
+          // clear selection
+          this.selection.clear();
+          Swal.fire({
+            icon:'success',
+            text:'Accounts/Account Activated Successfully'
+          })
+        },
+        error: (error) => {
+          if(error){
+            console.log("Error activating account", error)
+          }
+          Swal.fire({
+            icon:'error',
+            text:'Error Activating Account/Accounts'
+          })
+        },
+        complete: () => {
+          console.log("comlete activating account")
+        },
+      });
+    }
+      }else{
+        this.selection.clear()
+      }
+    })
+    
+  }
 
 
-  
+  // view a  client- navigates to a single client page 
+  viewClient(client:Client):void{
+    this.router.navigate(['/client' ,client.id])
+
+  }
 }
-  
-
