@@ -2,11 +2,14 @@ import { Component } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Driver } from '../driver.model';
 import { DriversService } from '../drivers.service';
+import { CommonModule } from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @Component({
   selector: 'app-driver-detail',
   standalone: true,
-  imports: [],
+  imports: [CommonModule,MatCardModule,MatGridListModule],
   templateUrl: './driver-detail.component.html',
   styleUrl: './driver-detail.component.css'
 })
