@@ -3,7 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Client } from './client.model';
 import { AuthService } from '../../core/services/auth.service';
-import { clientResponse } from './clients.response';
+import { clientsResponse } from './clients.response';
+import { clientResponse } from './client.reponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,9 @@ export class ClientsService {
   }
 
 //  get all clients
-  getClients(): Observable<clientResponse> {
+  getClients(): Observable<clientsResponse> {
     const headers=this.auth.getAuthHeaders()
-    return this.http.get<clientResponse>(`${this.gethost()}/api/open/customers`,{headers});
+    return this.http.get<clientsResponse>(`${this.gethost()}/api/open/customers`,{headers});
   }
 // deleting users
 
@@ -40,9 +41,9 @@ activateAccountById(clientId:number):Observable<any>{
   return this.http.put(`${this.gethost()}/api/open/customers/${clientId}/activate`, { headers });
 }
 // view single client
-getClientById(id:number):Observable<Client>{
+getClientById(id:number):Observable<clientResponse>{
   const headers = this.auth.getAuthHeaders();
-  return this.http.get<Client>(`${this.gethost()}/api/open/customers/${id}`)
+  return this.http.get<clientResponse>(`${this.gethost()}/api/open/customers/${id}`)
 
 
 }

@@ -29,8 +29,10 @@ export class ClientDetailsComponent {
     const clientId=this.activeRoute.snapshot.paramMap.get('id');
    if(clientId){
     this.clientService.getClientById(parseInt(clientId)).subscribe({
-      next:(data)=>{
-        this.client=data
+      next:(response)=>{
+        if(response.status=='OK'){
+          this.client=response.data
+        }
 
       }
     })
