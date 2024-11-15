@@ -5,3 +5,9 @@ export interface DriverResponse{
     message:string,
     data:Driver
 }
+
+export interface DriverApprovalResponse{
+    status:string,
+    data:Driver,
+    message:string
+}

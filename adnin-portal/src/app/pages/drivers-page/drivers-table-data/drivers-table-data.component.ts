@@ -9,18 +9,13 @@ import { Driver } from '../driver.model';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SelectionModel } from '@angular/cdk/collections';
-import {MatSelectModule} from '@angular/material/select';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { CommonModule } from '@angular/common';
 import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
-
-
-
-
-
-
-
+import { forkJoin } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-drivers-table-data',
@@ -35,8 +30,6 @@ import { Router } from '@angular/router';
     MatFormFieldModule,
     MatSelectModule,
     CommonModule,
-   
-  
   ],
   templateUrl: './drivers-table-data.component.html',
   styleUrl: './drivers-table-data.component.css',
@@ -53,38 +46,34 @@ export class DriversTableDataComponent {
     'status',
   ];
   dataSource: MatTableDataSource<Driver>;
- selection:SelectionModel<Driver>
+  selection: SelectionModel<Driver>;
 
- // filter and search value
- searchInput:string="";
- regStatusFilterValue:string='all'
- 
- 
-  constructor(private driverService: DriversService , private router :Router) {
+  // filter and search value
+  searchInput: string = '';
+  regStatusFilterValue: string = 'all';
+
+  constructor(private driverService: DriversService, private router: Router) {
     this.dataSource = new MatTableDataSource();
-    this.selection=new SelectionModel<Driver>(true,[ ])
-  } 
+    this.selection = new SelectionModel<Driver>(true, []);
+  }
 
   ngOnInit(): void {
     this.fetchDrivers();
-  
-   
   }
 
   fetchDrivers(): void {
     this.driverService.getDrivers().subscribe({
       next: (response) => {
-        console.log(response.data)
+        console.log(response.data);
         if (response.status === 'OK') {
           this.drivers = response.data;
           this.dataSource.data = this.drivers; // Ensure this line sets the data array
         }
-  
       },
     });
   }
-   // check if all rows are selected
-   isAllSelected() {
+  // check if all rows are selected
+  isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
@@ -94,64 +83,108 @@ export class DriversTableDataComponent {
     if (this.isAllSelected()) {
       this.selection.clear();
     } else {
-      this.dataSource.data.forEach(row => this.selection.select(row));
+      this.dataSource.data.forEach((row) => this.selection.select(row));
     }
-}
-
- //tooltip
- toolTipMessage():string{
-  if(this.isAllSelected()){
-    return "uncheck to deselect all rows"
-  }else{
-    return "check to select all rows"
   }
-}
-//search filter value
-onSearch(event:Event):void{
-    this.searchInput = (event.target as HTMLInputElement).value;
-    this.dataSource.filter=this.searchInput
-    
 
-
-}
-
-// dropdown filter value
-applyStatusFilter(event:MatSelectChange):void{
-  this.regStatusFilterValue=event.value;
- 
- this.dataSource.filter=this.regStatusFilterValue
-
-
-}
-
-// custom filter
-customFilter(){
-  this.dataSource.filterPredicate = (record: Driver, filter: string) => {
-    // Check for status filter (active, inactive, or all)
-    if (filter === 'all') {
-      return true;
-    } else if (filter === 'pending') {
-      return record.status==='pending'
-    } else if (filter === 'rejected') {
-      return record.status==="rejected";
+  //tooltip
+  toolTipMessage(): string {
+    if (this.isAllSelected()) {
+      return 'uncheck to deselect all rows';
+    } else {
+      return 'check to select all rows';
     }
+  }
+  //search filter value
+  onSearch(event: Event): void {
+    this.searchInput = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = this.searchInput;
+  }
 
-    // Default filter for firstName, lastName, or phoneNumber
-    return (
-      record.fullName.toLowerCase().includes(filter) ||
-    
-      record.phoneNumber.includes(filter)
+  // dropdown filter value
+  applyStatusFilter(event: MatSelectChange): void {
+    this.regStatusFilterValue = event.value;
+
+    this.dataSource.filter = this.regStatusFilterValue;
+  }
+
+  // custom filter
+  customFilter() {
+    this.dataSource.filterPredicate = (record: Driver, filter: string) => {
+      // Check for status filter (active, inactive, or all)
+      if (filter === 'all') {
+        return true;
+      } else if (filter === 'pending') {
+        return record.status === 'pending';
+      } else if (filter === 'rejected') {
+        return record.status === 'rejected';
+      }
+
+      // Default filter for firstName, lastName, or phoneNumber
+      return (
+        record.fullName.toLowerCase().includes(filter) ||
+        record.phoneNumber.includes(filter)
+      );
+    };
+  }
+
+  // navigate to a driver page
+  viewDriver(driver: Driver): void {
+    this.router.navigate(['/driver', driver.id]);
+  }
+
+  // delete account / accounts
+  deleteDriverAccount(): void {
+
+    Swal.fire({
+      icon: 'question',
+      text: 'Proceed Deleting Account?',
+      showCancelButton: true,
+      cancelButtonColor: 'red',
+      confirmButtonColor: 'green',
+      confirmButtonText: "YES",
+      cancelButtonText: "NO"
+    }).then(result=>{
+      if(result.isConfirmed){
+
+        //array containing selected ids of selected accounts
+    const selectedAccountsIds = this.selection.selected.map(
+      (client) => client.id
     );
-  };
-};
+    // array of observables after
+    const constDeleteRequests = selectedAccountsIds.map(id=>
+      this.driverService.deleteDriverAcc(id)
+       
+    )
+    // use forkjoin to send multiple requests
+    forkJoin(constDeleteRequests).subscribe({
+      next:()=>{
+        const remainingDrivers=this.drivers.filter(driver=>!selectedAccountsIds.includes(driver.id))
+        this.drivers=remainingDrivers;
+        Swal.fire({
+          icon:"success",
+          text:'Sucessfully Deleted Accounts'
+        })
+      },
+      error:(error)=>{
+        console.log('Error Deleting Drivers' , error)
+        Swal.fire({
+          icon:"error",
+          text:'error Deleting Account'
+        })
 
-// navigate to a driver page
-viewDriver(driver:Driver):void{
-  this.router.navigate(['/driver' ,driver.id])
+      },
+      complete:()=>{
+        console.log("Successfully Delete Drivers")
+      }
+    })
+        
+      }
+    })
+    
+  }
 
+
+  
+ 
 }
-}
-
-
-
-

@@ -47,72 +47,64 @@
     </div>
 </div> -->
 
-    <mat-card class="example-card" appearance="outlined" *ngIf="driver">
-        <mat-card-header>
-        <mat-card-title-group>
-            <mat-card-title><h2>{{driver.fullName}}</h2></mat-card-title>
-            <mat-card-subtitle>{{driver.fullName}}</mat-card-subtitle>
-            <img mat-card-md-image src="https://material.angular.io/assets/img/examples/shiba2.jpg"  alt="Image of a Shiba Inu">
-        </mat-card-title-group>
-        </mat-card-header>
-        <mat-card-content>
-            <mat-grid-list cols="3" rowHeight="5:5">
-                <mat-grid-tile>
-                    <mat-card appearance="outlined">
-                        <mat-card-header>
-                        Personal Information
-                        </mat-card-header>
-                        <mat-card-content>
-                            <ul>
-                                <li>{{driver.email}}</li>
-                                <li>{{driver.phoneNumber}}</li>
-                                <li>{{driver.role}}</li>
-                                <li>{{driver.status}}</li>
-                                <li>{{driver.active}}</li>
-                                <li>{{driver.termsAndConditionsAgreed}}</li>
-                            
-                            </ul>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-card appearance="outlined">
-                        <mat-card-header>
-                        Vehicle Information
-                        </mat-card-header>
-                        <mat-card-content>
-                            <ul>
-                                <li>{{driver.email}}</li>
-                                <li>{{driver.phoneNumber}}</li>
-                                <li>{{driver.role}}</li>
-                                <li>{{driver.status}}</li>
-                                <li>{{driver.active}}</li>
-                                <li>{{driver.termsAndConditionsAgreed}}</li>
-                            
-                            </ul>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                <mat-grid-tile>
-                    <mat-card appearance="outlined">
-                        <mat-card-header>
-                         Document Details   
-                        </mat-card-header>
-                        <mat-card-content>
-                            <ul>
-                                <li>{{driver.email}}</li>
-                                <li>{{driver.phoneNumber}}</li>
-                                <li>{{driver.role}}</li>
-                                <li>{{driver.status}}</li>
-                                <li>{{driver.active}}</li>
-                                <li>{{driver.termsAndConditionsAgreed}}</li>
-                            
-                            </ul>
-                        </mat-card-content>
-                    </mat-card>
-                </mat-grid-tile>
-                
-            </mat-grid-list>
-            
-        </mat-card-content>
-    </mat-card>
+<mat-card class="example-card" appearance="outlined" *ngIf="driver">
+  <mat-card-header>
+    <mat-card-title-group>
+      <mat-card-title><h2>{{ driver.fullName }}</h2></mat-card-title>
+      <mat-card-subtitle>Driver's Profile View</mat-card-subtitle>
+      <img
+        mat-card-md-image
+        [src]="driver.profilePictureUrl ? driver.profilePictureUrl : 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAACUCAMAAAANv/M2AAAAM1BMVEXh4eGjo6Pk5OSgoKDe3t67u7vR0dG+vr7KysrGxsadnZ3n5+enp6evr6+3t7fNzc3X19dYzkLlAAAERElEQVR4nO2c25arIAxAJdwRlP//2gPa6cXaVigYug77oTPTNQ97ZUWUkDgMnU6n0+n8AgAwsMDyy08QfIWWfApwqUUwxzb6yDioyRJCKLl82EmFL1uGCW7M4nuDGsNDvBsFQExkY3zxJpNoM7uB6X3lVVuzBq1H714ZrzjfXGqD3ubyU7CNbi3WyrxXjhiFbfmI/qwc0died4A65kyIaiZDQH1I5xu0GWt2VDnSym1mOhzoEOoJ23YB5pRAEzK3kCDeJQQ6hNp5bOPh8Gp3o4F1j6UFOoYa/1oUic7BWmA7j6mBjqHGfnKCA88cWwzy+gEiR1rgWoPMkZbIoZ7SnQlBviuyD9uVfZAXPWZzpC2qNPg8aY+Z1CBynAlBXT669GnSv5jTQ640pvNvrtM/eUcEnfPsgVwfA58jjXsdhk1A8h4g7AKwNwFjStHj4jxhS8OcLt1A5SM11E3UmI5XHy/SLVSpEwsfLZQ9kgq9a6DxM3qIm9uUqin2pvaKPV5Ut9iuf4A4ak0tcsnjnqNp3cTK8cfRk6I2LsIr8+sj5muYyYxtuQHmT3lNXQO37w3g3dunVOOwH0j3gPHtidE8Nug8xGBzS3eShFLLWwzzCgxe2+0VSYnVvvFGJiakNRFKlx9WttsLdAeM4JWUnEupPDSayjvAFWyTTqfT6XQ6nc5/D1w/Wmedb/FCzErpgFKzEL7heZfoGzYsfHLOhn3iBWKtcxMPW5hoju34AIwjCDkF2birfd6Ph2+snaSI/4fteoExxcnTeMtOJcEYwhVD3+YuI09ut9jxQpxahzsaBUzIFOObtxQ4Uy8wMu32EviINwnxZgj5PTuTcSx+wxh3buUXvJpSs2In3nRSp5X4IOTF98qrtjtnpAvGOb37+I23O6EGDMJ9XpGTrI2rfOIFXpdJjAdtqqumtiiZGXfarl7H/aiOH80mWltVqXGF5TR4H8XIKs8kjFcK8wrlFawrO1exHlP6IzKtZeG8hiPjqN9iyh6dZ3bvplK427d+ckSoLOl8TqAL9yjXXKHvMQVDnTy+l0vJ/jd/jnKkXH6k95PmQottwRLbBb+SLrdU/2RO/+aSl9SZmU/hns5TrMv3oZ6QIMX7UI/3k+ZSpQ+19rpXpQ/1+JtH8qjUh1pzI1DtfTbA60nzeuWaWo+oJR9Jn6iV15X7qlWNWl7t/nUoXhqj9oT+9cJ3mXBPqa4cDwLSB+PeOE8nnXOBLBVsak+c1SlUp65Zl34GmPz+EIMaefIR6OhfvDrxsDKZEN7699XB3HIYd7rysJwn5l6Q1CK+EtJLmjOCTSXqewVg1C4ttylxGr1VBZjgT2Mir40tR+qa2ACDV/tTORtjarlqauKFBe842/LK15hgjN4JtCU2Vc2ax1axNRH+PmLDGNdzQ01Xjyxtbn7WcTJneZUzl1LPvr32ticuIznLS7Ovf3U6nU6n0zj/AMU5MVvBq6d+AAAAAElFTkSuQmCC'"
+        alt="Profile"
+      />
+    </mat-card-title-group>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-grid-list cols="3" rowHeight="3:3.6">
+      <mat-grid-tile>
+        <mat-card appearance="outlined" class="info-card">
+          <mat-card-header> Personal Information </mat-card-header>
+          <mat-card-content>
+            <ul>
+              <li><b>Name: </b>{{ driver.email }}</li>
+              <li><b>Phone No: </b>{{ driver.phoneNumber }}</li>
+              <li><b>Role: </b>{{ driver.role }}</li>
+              <li><b>Registration Status: </b>{{ driver.status }}</li>
+              <li><b>Account Status: </b>{{ driver.active }}</li>
+              <li><b>Agreed to T&amp;C: </b>{{ driver.termsAndConditionsAgreed ? "Yes" : "No" }}</li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card appearance="outlined" class="info-card">
+          <mat-card-header> Vehicle Information </mat-card-header>
+          <mat-card-content>
+            <ul>
+              <li><b>Vehicle Type:</b> {{driver.vehicleType}}</li>
+              <li><b>Vehicle Model:</b> {{driver.vehicleModel}}</li>
+              <li><b>Vehicle Make:</b> {{driver.vehicleMake}}</li>
+              <li><b>Registration Number:</b> {{driver.vehicleRegistrationNumber}}</li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-card appearance="outlined" class="info-card">
+          <mat-card-header> Document Details </mat-card-header>
+          <mat-card-content>
+            <ul>
+              <li><button mat-raised-button>Driving License</button></li>
+              <li><button mat-raised-button>Vehicle Insurance</button></li>
+              <li><button mat-raised-button>Cert of Good Conduct</button></li>
+            </ul>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div class="action-buttons" *ngIf="driver.status.toLowerCase().trim()==='pending'  ">
+      <button mat-raised-button color="primary" (click)="approveDriverRegistration(driver)" >Approve</button>
+      <button mat-raised-button color="warn" (click)="rejectDriverRegistraation(driver)">Reject</button>
+    </div>
+  </mat-card-content>
+</mat-card>
