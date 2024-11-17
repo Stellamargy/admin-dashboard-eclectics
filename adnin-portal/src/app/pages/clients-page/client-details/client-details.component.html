@@ -1,5 +1,32 @@
-<div *ngIf="client">
-    <p>{{client.firstName}}</p>
-    <p>{{client.lastName}}</p>
-    <p>{{client.email}}</p>
+<div *ngIf="client" class="client-container">
+    <mat-card class="example-card" appearance="outlined">
+        <mat-card-header>
+          <mat-card-title-group>
+            <mat-card-title>{{ client.firstName }} {{ client.lastName }}</mat-card-title>
+            <mat-card-subtitle>{{ client.city }}</mat-card-subtitle>
+            <img mat-card-md-image [src]="client.picturePath? client.picturePath: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAACUCAMAAAANv/M2AAAAM1BMVEXh4eGjo6Pk5OSgoKDe3t67u7vR0dG+vr7KysrGxsadnZ3n5+enp6evr6+3t7fNzc3X19dYzkLlAAAERElEQVR4nO2c25arIAxAJdwRlP//2gPa6cXaVigYug77oTPTNQ97ZUWUkDgMnU6n0+n8AgAwsMDyy08QfIWWfApwqUUwxzb6yDioyRJCKLl82EmFL1uGCW7M4nuDGsNDvBsFQExkY3zxJpNoM7uB6X3lVVuzBq1H714ZrzjfXGqD3ubyU7CNbi3WyrxXjhiFbfmI/qwc0died4A65kyIaiZDQH1I5xu0GWt2VDnSym1mOhzoEOoJ23YB5pRAEzK3kCDeJQQ6hNp5bOPh8Gp3o4F1j6UFOoYa/1oUic7BWmA7j6mBjqHGfnKCA88cWwzy+gEiR1rgWoPMkZbIoZ7SnQlBviuyD9uVfZAXPWZzpC2qNPg8aY+Z1CBynAlBXT669GnSv5jTQ640pvNvrtM/eUcEnfPsgVwfA58jjXsdhk1A8h4g7AKwNwFjStHj4jxhS8OcLt1A5SM11E3UmI5XHy/SLVSpEwsfLZQ9kgq9a6DxM3qIm9uUqin2pvaKPV5Ut9iuf4A4ak0tcsnjnqNp3cTK8cfRk6I2LsIr8+sj5muYyYxtuQHmT3lNXQO37w3g3dunVOOwH0j3gPHtidE8Nug8xGBzS3eShFLLWwzzCgxe2+0VSYnVvvFGJiakNRFKlx9WttsLdAeM4JWUnEupPDSayjvAFWyTTqfT6XQ6nc5/D1w/Wmedb/FCzErpgFKzEL7heZfoGzYsfHLOhn3iBWKtcxMPW5hoju34AIwjCDkF2birfd6Ph2+snaSI/4fteoExxcnTeMtOJcEYwhVD3+YuI09ut9jxQpxahzsaBUzIFOObtxQ4Uy8wMu32EviINwnxZgj5PTuTcSx+wxh3buUXvJpSs2In3nRSp5X4IOTF98qrtjtnpAvGOb37+I23O6EGDMJ9XpGTrI2rfOIFXpdJjAdtqqumtiiZGXfarl7H/aiOH80mWltVqXGF5TR4H8XIKs8kjFcK8wrlFawrO1exHlP6IzKtZeG8hiPjqN9iyh6dZ3bvplK427d+ckSoLOl8TqAL9yjXXKHvMQVDnTy+l0vJ/jd/jnKkXH6k95PmQottwRLbBb+SLrdU/2RO/+aSl9SZmU/hns5TrMv3oZ6QIMX7UI/3k+ZSpQ+19rpXpQ/1+JtH8qjUh1pzI1DtfTbA60nzeuWaWo+oJR9Jn6iV15X7qlWNWl7t/nUoXhqj9oT+9cJ3mXBPqa4cDwLSB+PeOE8nnXOBLBVsak+c1SlUp65Zl34GmPz+EIMaefIR6OhfvDrxsDKZEN7699XB3HIYd7rysJwn5l6Q1CK+EtJLmjOCTSXqewVg1C4ttylxGr1VBZjgT2Mir40tR+qa2ACDV/tTORtjarlqauKFBe842/LK15hgjN4JtCU2Vc2ax1axNRH+PmLDGNdzQ01Xjyxtbn7WcTJneZUzl1LPvr32ticuIznLS7Ovf3U6nU6n0zj/AMU5MVvBq6d+AAAAAElFTkSuQmCC' " alt="User Profile Picture">
+          </mat-card-title-group>
+        </mat-card-header>
+      
+        <mat-card-content>
+          <p><strong>Email:</strong> {{ client.email }}</p>
+          <p><strong>Phone Number:</strong> {{ client.phoneNumber }}</p>
+          <p><strong>Date of Birth:</strong> {{ client.dateOfBirth | date }}</p>
+          <p><strong>Last Seen:</strong> {{ client.lastLoginTime | date: 'short' }}</p>
+          <p><strong> Account Status:</strong> {{ client.active ? 'Active' : 'Inactive' }}</p>
+        </mat-card-content>
+      
+        <mat-card-actions>
+          <button mat-raised-button color="primary" (click)="onActivate(client)" *ngIf="!client.active">
+            Activate
+          </button>
+          <button mat-raised-button color="warn" (click)="onDeactivate(client)" *ngIf="client.active">
+            Deactivate
+          </button>
+          <button mat-raised-button color="warn" (click)="onDelete(client)">
+            Delete
+          </button>
+        </mat-card-actions>
+      </mat-card>
+      
 </div>

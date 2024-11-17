@@ -9,13 +9,15 @@ import { Admin } from './admin.model';
   providedIn: 'root',
 })
 export class AdminsService {
-  private host = 'https://uio-1.onrender.com/api/open/admins';
-  constructor(private http: HttpClient, private authService: AuthService) {}
+ host:string;
+  constructor(private http: HttpClient, private authService: AuthService) {
+    this.host=this.authService.host
+  }
 
   getProfile(): Observable<Admin> {
     const id = this.authService.getUserId();
     const headers = this.authService.getAuthHeaders();
-   return this.http.get<Admin>(`${this.host}/${id}`, { headers });
+   return this.http.get<Admin>(`${this.host}/api/open/admins/${id}`, { headers });
   }
 
 
@@ -33,10 +35,10 @@ export class AdminsService {
       formData.append('employeeNumber', updatedData.employeeNumber || '');
       formData.append('profilePhoto', updatedData.profilePhoto); // Upload the photo file itself
   
-      return this.http.put<Admin>(`${this.host}/${id}`, formData, { headers });
+      return this.http.put<Admin>(`${this.host}/api/open/admins/${id}`, formData, { headers });
     } else {
       // For cases without an updated profile photo
-      return this.http.put<Admin>(`${this.host}/${id}`, updatedData, { headers });
+      return this.http.put<Admin>(`${this.host}/api/open/admins/${id}`, updatedData, { headers });
     }
   }
   

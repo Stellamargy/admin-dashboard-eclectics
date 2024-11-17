@@ -13,6 +13,7 @@ import { NavbarComponent } from './shared/reusable-components/navbar/navbar.comp
 import { SettingsComponent } from './pages/settings-page/settings/settings.component';
 import { LayoutComponent } from './component/layout/layout.component';
 import { ClientDetailsComponent } from './pages/clients-page/client-details/client-details.component';
+import { DriverDetailComponent } from './pages/drivers-page/driver-detail/driver-detail.component';
 
 export const routes: Routes = [
   // default path
@@ -71,6 +72,10 @@ export const routes: Routes = [
       {
         path:'client/:id' ,
         component:ClientDetailsComponent,
+        canActivate:[authGuard]
+      },{
+        path:'driver/:id',
+        component:DriverDetailComponent,
         canActivate:[authGuard]
       }
     ],

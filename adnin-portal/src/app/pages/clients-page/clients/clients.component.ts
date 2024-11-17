@@ -17,6 +17,10 @@ import { Observable } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import {
+  ProgressBarMode,
+  MatProgressBarModule,
+} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-clients',
@@ -33,15 +37,20 @@ import { Router } from '@angular/router';
     CommonModule,
     LucideAngularModule,
     MatButtonModule,
+    MatProgressBarModule,
   ],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css',
 })
 export class ClientsComponent implements OnInit {
-  constructor(private clientService: ClientsService,private router:Router) {}
+  constructor(private clientService: ClientsService, private router: Router) {}
   // client data
   clients: Client[] = [];
   statusFilter: string | undefined;
+  // motherfucker not working
+  loading: boolean = true;
+  // date
+  currentYear: number = new Date().getFullYear();
 
   tableColumns: string[] = [
     'select',
@@ -60,30 +69,28 @@ export class ClientsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    this.clientService.getClients().subscribe((response) => {
-      this.clients = response.data;
-      console.log('here are my clients', this.clients)
-      this.dataSource.data = this.clients;
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+    this.fetchingDrivers();
+  }
 
-      this.dataSource.filterPredicate = (record: Client, filter: string) => {
-        // Check for status filter (active, inactive, or all)
-        if (filter === 'all') {
-          return true;
-        } else if (filter === 'active') {
-          return record.active === true;
-        } else if (filter === 'inactive') {
-          return record.active === false;
-        }
-
-        // Default filter for firstName, lastName, or phoneNumber
-        return (
-          record.firstName.toLowerCase().includes(filter) ||
-          record.lastName.toLowerCase().includes(filter) ||
-          record.phoneNumber.includes(filter)
-        );
-      };
+  // fetching drivers from DB.
+  fetchingDrivers() {
+    this.clientService.getClients().subscribe({
+      next: (response) => {
+        
+        this.clients = response.data;
+        this.dataSource.data = this.clients;
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        this.customFiter();
+      },
+      error: (error) => {
+        console.log('Error Fetching', error);
+        this.loading = false;
+      },
+      complete: () => {
+        console.log('Clients Fetched');
+        this.loading = false;
+      },
     });
   }
 
@@ -119,6 +126,27 @@ export class ClientsComponent implements OnInit {
     this.dataSource.filter = this.statusFilter;
   }
 
+  //custom filter
+  customFiter() {
+    this.dataSource.filterPredicate = (record: Client, filter: string) => {
+      // Check for status filter (active, inactive, or all)
+      if (filter === 'all') {
+        return true;
+      } else if (filter === 'active') {
+        return record.active === true;
+      } else if (filter === 'inactive') {
+        return record.active === false;
+      }
+
+      // Default filter for firstName, lastName, or phoneNumber
+      return (
+        record.firstName.toLowerCase().includes(filter) ||
+        record.lastName.toLowerCase().includes(filter) ||
+        record.phoneNumber.includes(filter)
+      );
+    };
+  }
+
   // Whether the number of selected elements matches the total number of rows
   isAllSelected(): boolean {
     const numSelected = this.selection.selected.length;
@@ -135,55 +163,52 @@ export class ClientsComponent implements OnInit {
 
   // Delete multiple clients
   // Delete multiple clients
-deleteSelectedClients(): void {
-  Swal.fire({
-    icon: 'question',
-    text: 'Delete Accounts/Account?',
-    showCancelButton: true,
-    cancelButtonColor: 'red',
-    confirmButtonColor: 'green',
-    confirmButtonText: "YES",
-    cancelButtonText: "NO"
-  }).then((result) => {
-    if (result.isConfirmed) {
-      const selectedClientIds = this.selection.selected.map(
-        (client) => client.id
-      );
-
-      if (selectedClientIds.length > 0) {
-        const deleteRequests = selectedClientIds.map((id) =>
-          this.clientService.deleteClientById(id)
+  deleteSelectedClients(): void {
+    Swal.fire({
+      icon: 'question',
+      text: 'Delete Accounts/Account?',
+      showCancelButton: true,
+      cancelButtonColor: 'red',
+      confirmButtonColor: 'green',
+      confirmButtonText: 'YES',
+      cancelButtonText: 'NO',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const selectedClientIds = this.selection.selected.map(
+          (client) => client.id
         );
 
-        forkJoin(deleteRequests).subscribe({
-          next: () => {
-            this.clients = this.clients.filter(
-              (client) => !selectedClientIds.includes(client.id)
-            );
-            this.dataSource.data = this.clients;
-            this.selection.clear();
-            Swal.fire({
-              icon:'success',
-              text:'Accounts/Account Deleted Successfully'
-            })
-          },
-          error: (err) => {
-            console.error('Error deleting clients:', err)
-            Swal.fire({
-              icon:'error',
-              text:'Error Deleting Account/Accounts'
-            })
-          },
-        });
+        if (selectedClientIds.length > 0) {
+          const deleteRequests = selectedClientIds.map((id) =>
+            this.clientService.deleteClientById(id)
+          );
+
+          forkJoin(deleteRequests).subscribe({
+            next: () => {
+              this.clients = this.clients.filter(
+                (client) => !selectedClientIds.includes(client.id)
+              );
+              this.dataSource.data = this.clients;
+              this.selection.clear();
+              Swal.fire({
+                icon: 'success',
+                text: 'Accounts/Account Deleted Successfully',
+              });
+            },
+            error: (err) => {
+              console.error('Error deleting clients:', err);
+              Swal.fire({
+                icon: 'error',
+                text: 'Error Deleting Account/Accounts',
+              });
+            },
+          });
+        }
+      } else {
+        this.selection.clear();
       }
-    }else{
-      this.selection.clear();
-    }
-  });
-}
-
-
-   
+    });
+  }
 
   // deactivate accounts or  accounts
   deactiveSelectedAccounts(): void {
@@ -193,126 +218,120 @@ deleteSelectedClients(): void {
       showCancelButton: true,
       cancelButtonColor: 'red',
       confirmButtonColor: 'green',
-      confirmButtonText: "YES",
-      cancelButtonText: "NO"
-    }).then((result)=>{
-      if(result.isConfirmed){
+      confirmButtonText: 'YES',
+      cancelButtonText: 'NO',
+    }).then((result) => {
+      if (result.isConfirmed) {
         //logic here
         // returns an array of selected ids
-    const selectedClientAcc = this.selection.selected.map(
-      (client) => client.id
-    );
-    // checks if a column or columns are selected
-    if (selectedClientAcc.length > 0) {
-      // an array of observable-multiple delete requests
-      const deactivateAccRequest = selectedClientAcc.map((id) =>
-        this.clientService.deactivateAccountById(id)
-      );
+        const selectedClientAcc = this.selection.selected.map(
+          (client) => client.id
+        );
+        // checks if a column or columns are selected
+        if (selectedClientAcc.length > 0) {
+          // an array of observable-multiple delete requests
+          const deactivateAccRequest = selectedClientAcc.map((id) =>
+            this.clientService.deactivateAccountById(id)
+          );
 
-      // Use forkJoin to send all requests together
-      forkJoin(deactivateAccRequest).subscribe({
-        next: () => {
-          // Update the client list and data source after deactivation
-          this.clients = this.clients.map((client) => {
-            if (selectedClientAcc.includes(client.id)) {
-              client.active = false; // Mark the client as inactive in the table
-            }
-            return client;
+          // Use forkJoin to send all requests together
+          forkJoin(deactivateAccRequest).subscribe({
+            next: () => {
+              // Update the client list and data source after deactivation
+              this.clients = this.clients.map((client) => {
+                if (selectedClientAcc.includes(client.id)) {
+                  client.active = false; // Mark the client as inactive in the table
+                }
+                return client;
+              });
+              this.dataSource.data = this.clients;
+              this.selection.clear();
+              Swal.fire({
+                icon: 'success',
+                text: 'Accounts/Account Deactivated Successfully',
+              });
+            },
+            error: (error) => {
+              if (error) {
+                console.log('Error deactivating accounts', error);
+                Swal.fire({
+                  icon: 'error',
+                  text: 'Error Deactivating Account/Accounts',
+                });
+              }
+            },
+            complete: () => {
+              console.log('Deactivation completed!');
+            },
           });
-          this.dataSource.data = this.clients;
-          this.selection.clear();
-          Swal.fire({
-            icon:'success',
-            text:'Accounts/Account Deactivated Successfully'
-          })
-        },
-        error: (error) => {
-          if (error) {
-            console.log('Error deactivating accounts', error);
-            Swal.fire({
-              icon:'error',
-              text:'Error Deactivating Account/Accounts'
-            })
-          }
-        },
-        complete: () => {
-          console.log('Deactivation completed!');
-        },
-      });
-    }
-
-      }else{
-        this.selection.clear()
+        }
+      } else {
+        this.selection.clear();
       }
-    })
-    
+    });
   }
   //  activating accounts
   activateSelectedAcc(): void {
-
     Swal.fire({
       icon: 'question',
       text: 'Activate Accounts/Account?',
       showCancelButton: true,
       cancelButtonColor: 'red',
       confirmButtonColor: 'green',
-      confirmButtonText: "YES",
-      cancelButtonText: "NO"
-    }).then((result)=>{
-      if(result.isConfirmed){
+      confirmButtonText: 'YES',
+      cancelButtonText: 'NO',
+    }).then((result) => {
+      if (result.isConfirmed) {
         //logic here
         // get the selected accounts id
-    const selectedAccountId = this.selection.selected.map(
-      (client) => client.id
-    );
-    if (selectedAccountId.length > 0) {
-      // multiple activate account request
-      const selectedAccountReq = selectedAccountId.map((id) =>
-        this.clientService.activateAccountById(id)
-      );
-      // use forkjoin to send multiple requests
-      forkJoin(selectedAccountReq).subscribe({
-        next: () => {
-          //if successful update the Ui
-          this.clients = this.clients.map((client) => {
-            if (selectedAccountId.includes(client.id)) {
-              client.active = true; // Mark the client as active in the table
-            }
-            return client;
+        const selectedAccountId = this.selection.selected.map(
+          (client) => client.id
+        );
+        if (selectedAccountId.length > 0) {
+          // multiple activate account request
+          const selectedAccountReq = selectedAccountId.map((id) =>
+            this.clientService.activateAccountById(id)
+          );
+          // use forkjoin to send multiple requests
+          forkJoin(selectedAccountReq).subscribe({
+            next: () => {
+              //if successful update the Ui
+              this.clients = this.clients.map((client) => {
+                if (selectedAccountId.includes(client.id)) {
+                  client.active = true; // Mark the client as active in the table
+                }
+                return client;
+              });
+              this.dataSource.data = this.clients;
+              // clear selection
+              this.selection.clear();
+              Swal.fire({
+                icon: 'success',
+                text: 'Accounts/Account Activated Successfully',
+              });
+            },
+            error: (error) => {
+              if (error) {
+                console.log('Error activating account', error);
+              }
+              Swal.fire({
+                icon: 'error',
+                text: 'Error Activating Account/Accounts',
+              });
+            },
+            complete: () => {
+              console.log('comlete activating account');
+            },
           });
-          this.dataSource.data = this.clients;
-          // clear selection
-          this.selection.clear();
-          Swal.fire({
-            icon:'success',
-            text:'Accounts/Account Activated Successfully'
-          })
-        },
-        error: (error) => {
-          if(error){
-            console.log("Error activating account", error)
-          }
-          Swal.fire({
-            icon:'error',
-            text:'Error Activating Account/Accounts'
-          })
-        },
-        complete: () => {
-          console.log("comlete activating account")
-        },
-      });
-    }
-      }else{
-        this.selection.clear()
+        }
+      } else {
+        this.selection.clear();
       }
-    })
-    
+    });
   }
 
-
-  // view a  client- navigates to a single client page 
-  viewClient(client:Client):void{
-    this.router.navigate(['/client' ,client.id])
-
+  // view a  client- navigates to a single client page
+  viewClient(client: Client): void {
+    this.router.navigate(['/client', client.id]);
   }
 }

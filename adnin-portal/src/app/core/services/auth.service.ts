@@ -11,7 +11,7 @@ export class AuthService {
  
 
   constructor(private http:HttpClient) { }
-   host:string=`https://uio-1.onrender.com`
+   host:string=`https://udrive.onrender.com`
 
   // Check if code is running in a browser (not server-side)
   isBrowser(): boolean {
@@ -77,7 +77,7 @@ export class AuthService {
  
  
  
-  // Method to send the PUT request to change the password
+  //  change  password
   changePassword(email: string, oldPassword: string, newPassword: string): Observable<any> {
     const headers = this.getAuthHeaders();
 

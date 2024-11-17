@@ -43,7 +43,7 @@ export class NavbarComponent {
     { path: '/revenue', label: 'Revenue', icon: HandCoins },
     { path: '/feedback', label: 'Feedback', icon: MessageCircle },
     { path: '/geography', label: 'Geography', icon: MapPin },
-    { path: '/settings', label: 'Settings', icon: Settings },
+    { path: '/settings', label: 'Account Settings', icon: Settings },
     { path: null, label: 'LogOut', icon: LogOut },
     
   ];
