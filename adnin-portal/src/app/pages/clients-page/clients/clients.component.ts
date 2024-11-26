@@ -18,9 +18,9 @@ import { MatButtonModule } from '@angular/material/button';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
 import {
-  ProgressBarMode,
-  MatProgressBarModule,
-} from '@angular/material/progress-bar';
+  ProgressSpinnerMode,
+  MatProgressSpinnerModule,
+} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-clients',
@@ -37,7 +37,7 @@ import {
     CommonModule,
     LucideAngularModule,
     MatButtonModule,
-    MatProgressBarModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css',
@@ -47,10 +47,7 @@ export class ClientsComponent implements OnInit {
   // client data
   clients: Client[] = [];
   statusFilter: string | undefined;
-  // motherfucker not working
-  loading: boolean = true;
-  // date
-  currentYear: number = new Date().getFullYear();
+  loading: boolean = false;
 
   tableColumns: string[] = [
     'select',
@@ -58,7 +55,7 @@ export class ClientsComponent implements OnInit {
     'lastName',
     'phoneNumber',
     'dateOfBirth',
-    'lastLoginTime',
+    // 'lastLoginTime',
     'active',
   ];
 
@@ -69,19 +66,20 @@ export class ClientsComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
-    this.fetchingDrivers();
+    this.fetchingClients();
   }
 
   // fetching drivers from DB.
-  fetchingDrivers() {
+  fetchingClients() {
+    this.loading = true;
     this.clientService.getClients().subscribe({
       next: (response) => {
-        
+        this.loading = false;
         this.clients = response.data;
         this.dataSource.data = this.clients;
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        this.customFiter();
+        this.customFilter();
       },
       error: (error) => {
         console.log('Error Fetching', error);
@@ -89,7 +87,6 @@ export class ClientsComponent implements OnInit {
       },
       complete: () => {
         console.log('Clients Fetched');
-        this.loading = false;
       },
     });
   }
@@ -127,7 +124,7 @@ export class ClientsComponent implements OnInit {
   }
 
   //custom filter
-  customFiter() {
+  customFilter() {
     this.dataSource.filterPredicate = (record: Client, filter: string) => {
       // Check for status filter (active, inactive, or all)
       if (filter === 'all') {

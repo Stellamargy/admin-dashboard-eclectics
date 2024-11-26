@@ -7,17 +7,19 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatCardModule} from '@angular/material/card';
 import Swal from 'sweetalert2';
 import { Router } from '@angular/router';
+import { LucideAngularModule,  MoveLeft} from 'lucide-angular';
 
 @Component({
   selector: 'app-client-details',
   standalone: true,
-  imports: [CommonModule,MatButtonModule,MatCardModule],
+  imports: [CommonModule,MatButtonModule,MatCardModule, LucideAngularModule],
   templateUrl: './client-details.component.html',
   styleUrl: './client-details.component.css'
 })
 export class ClientDetailsComponent {
-
+  readonly arrow=MoveLeft;
   client:Client | undefined;
+  size:number=3;
  
   constructor(
     private activeRoute:ActivatedRoute,
@@ -187,6 +189,10 @@ export class ClientDetailsComponent {
       }
     })
     
+
+  }
+  goToClients():void{
+    this.router.navigate(['/clients'])
 
   }
 

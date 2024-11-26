@@ -21,7 +21,7 @@ export class DriversService {
   // fetching all drivers
   getDrivers():Observable<DriversResponse>{
     return this.http.get<DriversResponse>(`${this.endpoint}/api/open/drivers`,{
-     
+     headers:this.headers
       
     })
     

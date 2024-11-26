@@ -4,6 +4,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
 
 @Component({
   selector: 'app-add-service-modal',
@@ -13,7 +14,8 @@ import { FormsModule, ReactiveFormsModule, FormGroup, FormBuilder, Validators } 
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule  // Added ReactiveFormsModule here
+    ReactiveFormsModule ,
+    MatButtonModule
   ],
   templateUrl: './add-service-modal.component.html',
   styleUrl: './add-service-modal.component.css'  // Changed to `styleUrls`
@@ -29,9 +31,9 @@ export class AddServiceModalComponent {
     this.addServiceForm = this.fb.group({
       serviceName: ['', Validators.required],
       description: ['', Validators.required],
-      price:['' , Validators.required],
-      distance:['', Validators.required],
-      photoPath: [null],
+      // price:['' , Validators.required],
+      // distance:['', Validators.required],
+      photoPath: [null,Validators.required],
     });
   }
 
@@ -52,8 +54,8 @@ onSave(): void {
       service: { // Wrap in a 'service' object
         serviceName: this.addServiceForm.get('serviceName')?.value,
         description: this.addServiceForm.get('description')?.value,
-        price: this.addServiceForm.get('price')?.value,
-        distance:this.addServiceForm.get('distance')?.value
+        // price: this.addServiceForm.get('price')?.value,
+        // distance:this.addServiceForm.get('distance')?.value
       },
       file: this.selectedFile, // The file is directly included
     };

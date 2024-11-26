@@ -8,19 +8,14 @@
  
 }
 
-.custom-sidenav {
-  width: 240px; /* Set your desired width */
-  background-color: #011f4b;
-  border-radius: 0px;
-  height: 100%;
-}
+
 
 .content-area {
   max-width: 1200px;
   padding: 40px 0px;
-  flex: 1; /* Allows it to expand */
-  height: 100vh; /* Matches viewport height */
-  overflow-y: auto;
+  flex: 1; 
+  height: 100vh;  
+   overflow-y: auto;
   
 }
 
@@ -35,3 +30,14 @@
   box-sizing: border-box; /* Ensures padding doesn’t affect total width/height */
 
 }
+
+
+
+
+.custom-sidenav {
+  width: 240px; /* Set your desired width */
+  background-color: #011f4b;
+  border-radius: 0px;
+  height: 100%;
+}
+

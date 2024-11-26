@@ -1,16 +1,31 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { LucideAngularModule,Facebook,Twitter,Instagram} from 'lucide-angular';
+import { RouterModule } from '@angular/router';
 
+export interface links{
+  path:string | null
+  label:string;
+}
 @Component({
   selector: 'app-footer',
   standalone: true,
-  imports: [LucideAngularModule],
+  imports: [RouterModule,CommonModule],
   templateUrl: './footer.component.html',
   styleUrl: './footer.component.css'
 })
 export class FooterComponent {
-  readonly facebook=Facebook;
-  readonly twitter=Twitter;
-  readonly instagram=Instagram
+  currentYear:number=new Date().getFullYear();
+  quickLinks:links[]=[
+    { path: '/dashboard', label: 'Dashboard' },
+    { path: '/drivers', label: 'Drivers' },
+    { path: '/clients', label: 'Clients' },
+    { path: '/organizations', label: 'Organizations' },
+    { path: '/products', label: 'Services' },
+    { path: '/revenue', label: 'Revenue' },
+    { path: '/feedback', label: 'Feedback' },
+    { path: '/geography', label: 'Geography' },
+    { path: '/settings', label: 'Account Settings' },
+    { path: null, label: 'Log Out' },
+  ];
 
 }

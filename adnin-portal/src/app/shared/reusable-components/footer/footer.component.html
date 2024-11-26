@@ -1,0 +1,30 @@
+
+<footer class="admin-footer">
+    <div class="footer-content">
+      <div class="left-section">
+        <p>© {{ currentYear }} Your Company Name. All Rights Reserved.</p>
+        <p>
+          <a href="">Privacy Policy</a> | 
+          <a href="">Terms of Service</a>
+        </p>
+      </div>
+  
+      <div class="center-section">
+        <p>1234 Admin Drive, Suite 100, Cityville, Adminland</p>
+      </div>
+  
+      <div class="right-section">
+        <ul class="navigation-links">
+          <li *ngFor="let link of quickLinks">
+            <a *ngIf="link.path" 
+               [routerLink]="link.path" 
+               routerLinkActive="active-link">
+              {{ link.label }}
+            </a>
+            <a *ngIf="!link.path" href="#">{{ link.label }}</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+  

@@ -1,0 +1,58 @@
+<h2><span>Vehicle Types and Rates</span> for {{serviceName}}</h2>
+<div>
+    <mat-toolbar >
+        <div  class="tool-bar">
+            <button  color="primary"  class="add-btn"  (click)="openAddVehicleDialog()">Add Vehicle Type</button>
+        </div>
+    </mat-toolbar>
+</div>
+<div  class="table-wrapper">
+
+    <table mat-table [dataSource]="datasource" class="mat-table mat-elevation-z8">
+  
+      <!-- Service Name Column -->
+      <ng-container matColumnDef="serviceName">
+        <th mat-header-cell *matHeaderCellDef> Service Name </th>
+        <td mat-cell *matCellDef="let vehicleTypeandPrice"> {{ vehicleTypeandPrice.serviceName }} </td>
+      </ng-container>
+  
+      <!-- Vehicle Type Column -->
+      <ng-container matColumnDef="vehicleType">
+        <th mat-header-cell *matHeaderCellDef> Vehicle Type </th>
+        <td mat-cell *matCellDef="let vehicleTypeandPrice"> {{vehicleTypeandPrice.vehicleType }} </td>
+      </ng-container>
+  
+      <!-- Description Column -->
+      <!-- <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let vehicleTypeandPrice"> {{ vehicleTypeandPrice.description }} </td>
+      </ng-container> -->
+  
+      <!-- Rate Per Km Column -->
+      <ng-container matColumnDef="ratePerKm">
+        <th mat-header-cell *matHeaderCellDef> Rate  </th>
+        <td mat-cell *matCellDef="let vehicleTypeandPrice"> {{ vehicleTypeandPrice.ratePerKm }} </td>
+      </ng-container>
+  
+      <!-- Distance Column -->
+      <ng-container matColumnDef="distance">
+        <th mat-header-cell *matHeaderCellDef> Distance (km) </th>
+        <td mat-cell *matCellDef="let vehicleTypeandPrice"> {{ vehicleTypeandPrice.distance }} </td>
+      </ng-container>
+  
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Action Buttons </th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-raised-button color="primary" class="action-btn" (click)="openEditVehicleDialog(element)">Edit</button>
+          <button mat-raised-button color="warn" class="action-btn" (click)="deleteVehicleType(element.id)">Delete</button>
+        </td>
+      </ng-container>
+  
+      <!-- Header and Rows -->
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+    </table>
+  </div>
+  

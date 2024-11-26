@@ -1,4 +1,5 @@
 <div *ngIf="client" class="client-container">
+  <h2><span>Client's Profile </span> View</h2>
     <mat-card class="example-card" appearance="outlined">
         <mat-card-header>
           <mat-card-title-group>
@@ -12,8 +13,7 @@
           <p><strong>Email:</strong> {{ client.email }}</p>
           <p><strong>Phone Number:</strong> {{ client.phoneNumber }}</p>
           <p><strong>Date of Birth:</strong> {{ client.dateOfBirth | date }}</p>
-          <p><strong>Last Seen:</strong> {{ client.lastLoginTime | date: 'short' }}</p>
-          <p><strong> Account Status:</strong> {{ client.active ? 'Active' : 'Inactive' }}</p>
+         <p><strong> Account Status:</strong> {{ client.active ? 'Active' : 'Inactive' }}</p>
         </mat-card-content>
       
         <mat-card-actions>
@@ -27,6 +27,9 @@
             Delete
           </button>
         </mat-card-actions>
+       
       </mat-card>
-      
-</div>
+     <button mat-raised-button (click)="goToClients()">
+      BACK
+    
+     </button>

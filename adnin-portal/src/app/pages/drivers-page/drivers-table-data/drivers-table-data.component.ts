@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component,ViewChild } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -16,6 +16,8 @@ import { MatSelectChange } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
 import Swal from 'sweetalert2';
+import { MatPaginatorModule,MatPaginator } from '@angular/material/paginator';
+import {ProgressSpinnerMode, MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-drivers-table-data',
@@ -30,6 +32,8 @@ import Swal from 'sweetalert2';
     MatFormFieldModule,
     MatSelectModule,
     CommonModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './drivers-table-data.component.html',
   styleUrl: './drivers-table-data.component.css',
@@ -40,11 +44,11 @@ export class DriversTableDataComponent {
     'select',
     'fullName',
     'email',
-    'phoneNumber',
     'vehicleType',
     'role',
     'status',
   ];
+  loading:boolean=false
   dataSource: MatTableDataSource<Driver>;
   selection: SelectionModel<Driver>;
 
@@ -56,20 +60,37 @@ export class DriversTableDataComponent {
     this.dataSource = new MatTableDataSource();
     this.selection = new SelectionModel<Driver>(true, []);
   }
-
+ 
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.fetchDrivers();
+    this.customFilter()
+
   }
 
   fetchDrivers(): void {
+    this.loading=true;
     this.driverService.getDrivers().subscribe({
       next: (response) => {
+        this.loading=false;
         console.log(response.data);
         if (response.status === 'OK') {
+          
           this.drivers = response.data;
-          this.dataSource.data = this.drivers; // Ensure this line sets the data array
+          this.dataSource.data = this.drivers; 
+         
+          this.dataSource.paginator = this.paginator;
         }
+
       },
+      error:(error)=>{
+        this.loading=false;
+        console.log('Error fetching drivers' , error)
+      },
+      complete:()=>{
+        
+        console.log("Fetching drivers complete")
+      }
     });
   }
   // check if all rows are selected
@@ -104,8 +125,9 @@ export class DriversTableDataComponent {
   // dropdown filter value
   applyStatusFilter(event: MatSelectChange): void {
     this.regStatusFilterValue = event.value;
-
+    this.customFilter()
     this.dataSource.filter = this.regStatusFilterValue;
+    
   }
 
   // custom filter
@@ -113,11 +135,13 @@ export class DriversTableDataComponent {
     this.dataSource.filterPredicate = (record: Driver, filter: string) => {
       // Check for status filter (active, inactive, or all)
       if (filter === 'all') {
-        return true;
+        return  true;
       } else if (filter === 'pending') {
-        return record.status === 'pending';
+        return record.status.toLowerCase() === 'pending';
       } else if (filter === 'rejected') {
-        return record.status === 'rejected';
+        return record.status.toLowerCase() === 'rejected';
+      }else if (filter === 'approved') {
+        return record.status.toLowerCase() === 'approved';
       }
 
       // Default filter for firstName, lastName, or phoneNumber

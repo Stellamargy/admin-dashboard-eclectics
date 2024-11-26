@@ -14,6 +14,8 @@ import { SettingsComponent } from './pages/settings-page/settings/settings.compo
 import { LayoutComponent } from './component/layout/layout.component';
 import { ClientDetailsComponent } from './pages/clients-page/client-details/client-details.component';
 import { DriverDetailComponent } from './pages/drivers-page/driver-detail/driver-detail.component';
+import { VehicleTypesandPricesComponent } from './pages/products-page/vehicle-typesand-prices/vehicle-typesand-prices.component';
+import { RideHistoryComponent } from './pages/ride-history/ride-history.component';
 
 export const routes: Routes = [
   // default path
@@ -31,7 +33,7 @@ export const routes: Routes = [
       {
         path: 'drivers',
         component: DriversTableDataComponent ,
-        canActivate: [authGuard],
+        // canActivate: [authGuard],
       },
       {
         path: 'clients',
@@ -49,8 +51,8 @@ export const routes: Routes = [
         canActivate: [authGuard],
       },
       {
-        path: 'feedback',
-        component: FeedbackComponent,
+        path: 'ridehistory',
+        component: RideHistoryComponent,
         canActivate: [authGuard],
       },
       {
@@ -77,7 +79,12 @@ export const routes: Routes = [
         path:'driver/:id',
         component:DriverDetailComponent,
         canActivate:[authGuard]
+      },{
+        path:'products/:serviceName',
+        component:VehicleTypesandPricesComponent,
+        canActivate:[authGuard]
       }
+
     ],
   },
 

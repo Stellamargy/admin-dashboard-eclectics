@@ -1,23 +1,55 @@
 <div class="overview-container">
-        <h2>Overview</h2>
-        <div class="top-section-container">
-                <div class="keymetrics">
-
-                </div>
-                <div class="users-overiew-container">
-
-                </div>
-        </div>
-        <div class="middle-section-container">
-                <div class="revenue-overview-container">
-
-                </div>
-                <div class="recent-ride-activity-container">
-
-                </div>
-        </div>
-        
-</div>
+        <mat-grid-list cols="2" rowHeight="180px" gutterSize="20px">
+          <!-- Total Approved Drivers -->
+          <mat-grid-tile>
+            <mat-card>
+                <lucide-angular [img]="icons.driversIcon" class="my-icon" [size]="40"></lucide-angular>
+              <mat-card-title>Total Approved Drivers</mat-card-title>
+              <mat-card-content>100</mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+      
+          <!-- Active Customers -->
+          <mat-grid-tile>
+            <mat-card>
+                <lucide-angular [img]="icons.customersIcon" class="my-icon" [size]="40"></lucide-angular>
+              <mat-card-title>Active Customers</mat-card-title>
+              <mat-card-content>200</mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+      
+          <!-- Total Rides -->
+          <mat-grid-tile>
+            <mat-card>
+                <lucide-angular [img]="icons.ridesIcon" class="my-icon" [size]="40"></lucide-angular>
+              <mat-card-title>Total Rides</mat-card-title>
+              <mat-card-content>70</mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+      
+          <!-- Total Revenue -->
+          <mat-grid-tile>
+            <mat-card>
+                <lucide-angular [img]="icons.revenueIcon" class="my-icon" [size]="40"></lucide-angular>
+              <mat-card-title>Total Revenue</mat-card-title>
+              <mat-card-content>70</mat-card-content>
+            </mat-card>
+          </mat-grid-tile>
+        </mat-grid-list>
+      
+        <!-- Bar Chart -->
+        <!-- <div class="chart-container">
+          <canvas baseChart
+                  [datasets]="barChartData"
+                  [labels]="barChartLabels"
+                  [options]="barChartOptions"
+                  [legend]="true"
+                  [chartType]="'bar'">
+          </canvas>
+        </div> -->
+      </div>
+      
+      
 
         
       

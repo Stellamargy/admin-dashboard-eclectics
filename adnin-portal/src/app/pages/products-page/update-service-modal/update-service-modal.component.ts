@@ -39,10 +39,10 @@ export class UpdateServiceModalComponent {
     @Inject(MAT_DIALOG_DATA) public service: any
   ) {
     this.updateServiceForm = this.fb.group({
-      serviceName: [service.serviceName, Validators.required],
-      description: [service.description, Validators.required],
-      price: [service.price, Validators.required],
-      distance: [service.distance, Validators.required],
+      serviceName: [service.serviceName, ],
+      description: [service.description],
+      // price: [service.price, Validators.required],
+      // distance: [service.distance, Validators.required],
       file: [null, ],
     });
   }
@@ -63,8 +63,8 @@ export class UpdateServiceModalComponent {
           // Wrap in a 'service' object
           serviceName: this.updateServiceForm.get('serviceName')?.value,
           description: this.updateServiceForm.get('description')?.value,
-          price: this.updateServiceForm.get('price')?.value,
-          distance: this.updateServiceForm.get('distance')?.value,
+          // price: this.updateServiceForm.get('price')?.value,
+          // distance: this.updateServiceForm.get('distance')?.value,
           
         },
         file: this.selectedFile, // The file is directly included

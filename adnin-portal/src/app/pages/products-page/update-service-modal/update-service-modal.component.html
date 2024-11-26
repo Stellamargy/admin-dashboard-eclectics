@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>Update Service</h2>
 <form [formGroup]="updateServiceForm" (ngSubmit)="onSave()">
   <mat-dialog-content>
-    <mat-form-field>
+    <mat-form-field appearance="outline" class="full-width">
       <mat-label>Service Name</mat-label>
       <input matInput formControlName="serviceName" />
     </mat-form-field>
-
+<!-- 
     <mat-form-field>
       <mat-label>Price</mat-label>
       <input matInput formControlName="price" />
@@ -13,8 +13,8 @@
     <mat-form-field>
       <mat-label>Distance</mat-label>
       <input matInput formControlName="distance" />
-    </mat-form-field>
-    <mat-form-field>
+    </mat-form-field> -->
+    <mat-form-field  appearance="outline" class="full-width">
       <mat-label>Description</mat-label>
       <textarea matInput formControlName="description"></textarea>
     </mat-form-field>

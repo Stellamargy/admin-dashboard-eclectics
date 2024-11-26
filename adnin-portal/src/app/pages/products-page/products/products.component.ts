@@ -8,15 +8,17 @@ import Swal from 'sweetalert2';
 import { MatDialog } from '@angular/material/dialog';
 import { AddServiceModalComponent } from '../add-service-modal/add-service-modal.component';
 import { UpdateServiceModalComponent } from '../update-service-modal/update-service-modal.component';
+import { Router } from '@angular/router';
+
 
 export interface service {
   id: number;
   serviceName: string;
   description: string;
   photoPath: string;
-  status:string,
-  price: number,
-  distance:number
+  status:string | null;
+  price: number;
+  distance:number;
 }
 
 @Component({
@@ -34,7 +36,7 @@ export interface service {
   styleUrl: './products.component.css',
 })
 export class ProductsComponent {
-  constructor(private products: ProductsService, private dialog: MatDialog) {}
+  constructor(private products: ProductsService, private dialog: MatDialog , private router:Router) {}
 
   services: service[] = [];
   // fetch services
@@ -135,10 +137,10 @@ export class ProductsComponent {
 
 // open update dialog
 
-openUpdateDialog(service: any): void {
+openUpdateDialog(clickedservice: any): void {
   const dialogRef = this.dialog.open(UpdateServiceModalComponent, {
     width: '400px',
-    data: service,
+    data: clickedservice,
   });
 
   dialogRef.afterClosed().subscribe((result) => {
@@ -152,8 +154,8 @@ openUpdateDialog(service: any): void {
       formData.append('service', JSON.stringify({
         serviceName: result.service.serviceName,
         description: result.service.description,
-        price: result.service.price,
-        distance: result.service.distance,
+        // price: result.service.price,
+        // distance: result.service.distance,
       }));
 
       // Append file if selected
@@ -162,20 +164,20 @@ openUpdateDialog(service: any): void {
       }
       console.log('form-data',formData)
       // Call the updateService method and pass the service ID and formData
-      this.products.updateService(service.id, formData).subscribe({
+      this.products.updateService(clickedservice.id, formData).subscribe({
         
         next: (response) => {
           console.log('Service updated successfully:', response);
+          const index=this.services.findIndex(service=>service.id===clickedservice.id)
+          if (index !== -1) {
+            // Update the service in place
+            this.services[index] = {
+              ...this.services[index], // Retain existing properties
+              ...response, // Update with new properties from the response
+            };
+          }
+         
           
-          // Update the local `services` array to reflect the updated data
-          // const index = this.services.findIndex((s) => s.id === service.id);
-          // if (index > -1) {
-          //   this.services[index] = { ...service, ...JSON.parse(result.service) };
-          //   // If you have a way to get the updated photoPath, update that as well
-          //   if (result.photo) {
-          //     this.services[index].photoPath = response.newPhotoPath; // or whatever key your response returns
-          //   }
-          // }
         },
         error: (err) => {
           console.error('Error updating service:', err.error);
@@ -185,6 +187,8 @@ openUpdateDialog(service: any): void {
   });
 }
 
-
+viewVehicleTypeandPrices(serviceName:string){
+this.router.navigate(["/products" ,serviceName])
+}
 
 }

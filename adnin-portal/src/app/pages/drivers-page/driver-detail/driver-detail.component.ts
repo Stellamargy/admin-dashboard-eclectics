@@ -7,6 +7,7 @@ import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatButtonModule} from '@angular/material/button';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'app-driver-detail',
@@ -20,7 +21,8 @@ export class DriverDetailComponent {
 
   constructor(
     private activatedRoute:ActivatedRoute,
-    private driverService:DriversService
+    private driverService:DriversService,
+    private router:Router
   ){}
 
   ngOnInit():void{
@@ -127,6 +129,10 @@ export class DriverDetailComponent {
     })
 
     
+
+  }
+  goToDrivers():void{
+    this.router.navigate(['/drivers'])
 
   }
 

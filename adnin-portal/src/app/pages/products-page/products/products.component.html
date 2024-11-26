@@ -1,25 +1,25 @@
-<h1>Services</h1>
+<h2>Services</h2>
   <div class="services-container">
     <button mat-raised-button color="primary" (click)="openAddServiceDialog()">Add Service</button>
   <div class="services">
-      <mat-grid-list cols="2" rowHeight="3:2">
+      <mat-grid-list cols="2" rowHeight="2:1">
           <mat-grid-tile *ngFor="let service of services">
-              <mat-card class="example-card" appearance="outlined" >
+              <mat-card class="example-card" appearance="outlined" (click)="viewVehicleTypeandPrices(service.serviceName)" >
                   <mat-card-header>
                     <div mat-card-avatar class="example-header-image"><img [src]="service.photoPath" alt="service name"></div>
                     <mat-card-title>{{service.serviceName}}</mat-card-title>
                     
                   </mat-card-header>
                   <mat-card-content>
-                    <p> Price per km: <span>Ksh{{service.price}}</span></p>
-                    <p> Distance: <span>{{service.distance}}km</span></p>
+                    <!-- <p> Price per km: <span>Ksh{{service.price}}</span></p>
+                    <p> Distance: <span>{{service.distance}}km</span></p> -->
                     <p>
                     {{service.description}}
                     </p>
                   </mat-card-content>
                   <mat-card-actions>
-                    <button mat-button (click)="openUpdateDialog(service)">UPDATE</button>
-                    <button mat-button (click)="onDelete(service.id)">DELETE</button>
+                    <button mat-button (click)="openUpdateDialog(service) ; $event.stopPropagation()">UPDATE</button>
+                    <button mat-button (click)="onDelete(service.id) ; $event.stopPropagation()">DELETE</button>
                   </mat-card-actions>
                 </mat-card>
           </mat-grid-tile>

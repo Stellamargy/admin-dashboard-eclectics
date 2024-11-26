@@ -1,0 +1,35 @@
+<mat-dialog-content>
+    <h2 mat-dialog-title>Edit Vehicle Type and Price</h2>
+    <form [formGroup]="editForm">
+      <mat-form-field appearance="outline">
+        <mat-label>Service Name</mat-label>
+        <input matInput type="text"  formControlName="serviceName"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Name</mat-label>
+        <input matInput type="text" formControlName="name" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Vehicle Type</mat-label>
+        <input matInput type="text" formControlName="vehicleType" />
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <input matInput type="text"  formControlName="description"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Rate</mat-label>
+        <input matInput type="number"  formControlName="ratePerKm"/>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Distance(km)</mat-label>
+        <input matInput type="number" formControlName="distance" />
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-raised-button (click)="cancel()">Cancel</button>
+    <button mat-raised-button  (click)="processEditForm()">Edit</button>
+  </mat-dialog-actions>
+  
+

@@ -4,9 +4,15 @@
   margin: 10px auto;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
+  /* height: 100%;
+  overflow: auto; */
  
-  height: 300vh; /* Limit the maximum height */
-  overflow-y: scroll; /* Add vertical scrollbar if content overflows */
+
+}
+.driver-rofile-view-wrapper{
+ 
+  max-height: 80vh;
+  overflow: auto;
 }
 
 mat-card-header {
@@ -84,4 +90,8 @@ img[mat-card-md-image] {
   gap: 10px;
   margin-top: 20px;
   
+}
+
+.back-btn{
+  margin-top:30px;
 }

@@ -1,4 +1,4 @@
-.mat-toolbar {
+/* .mat-toolbar {
   display: flex;
   justify-content: space-between;
 }
@@ -12,10 +12,10 @@ table {
     border:1px solid #D0D2DB;
 }
 .search-input:focus {
-    /* Your styles here */
-    outline: 2px solid #4A90E2; /* Example for blue outline */
-    background-color: #f0f8ff; /* Example for light background color */
-    /* Add any additional styles */
+    
+    outline: 2px solid #4A90E2; 
+    background-color: #f0f8ff; 
+  
   }
   select {
     padding: 4px 6px;
@@ -24,10 +24,106 @@ table {
     border: 1px solid #ccc;
     background-color: #fff;
     color: #333;
-    appearance: none; /* Remove default styling in some browsers */
+    appearance: none; 
+  }
+  .table-container{
+    width:100%;
   }
   
   
   
   
+ */
 
+
+
+
+
+
+ .table-container {
+  width: 100%;
+  overflow-y: auto;
+  max-height: 50vh; /* Ensures the table is scrollable */
+}
+
+th {
+  position: sticky;
+  top: 0;
+  background-color: white; /* Ensure background stays white when sticky */
+  z-index: 1; /* Ensures headers stay above the table content */
+}
+
+.check-box {
+  z-index: 100; /* Keep checkboxes on top */
+}
+
+/* Styling for the sticky toolbar */
+.tool-bar-container {
+  margin-bottom: 15px;
+  position: sticky;
+  top: 0;
+  z-index: 200; /* Ensures the toolbar stays above the table */
+}
+
+/* Styling for the toolbar itself */
+.mat-toolbar {
+  height:80px;
+  background-color: white;
+  border-bottom: 1px solid #ddd;
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Optional: Style for the scrollbar */
+.table-container::-webkit-scrollbar {
+  width: 10px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+  background-color: #b0bec5; /* Custom scrollbar color */
+  border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+  background: #f0f0f0; /* Track background color */
+}
+
+ h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #333;
+  margin-top:10px ;
+  text-align: center; /* Center-aligns the heading */
+}
+
+span {
+  margin-left: 10px;
+}
+
+.my-icon {
+  color: rgb(0, 0, 255);
+  transition: all 200ms ease;
+}
+
+.my-icon:hover {
+  color: rgba(0, 0, 255, 0.5);
+}
+
+.search-input {
+  padding:10px 15px;
+  border-radius: 4px;
+  border:1px solid #D0D2DB;
+}
+.search-input:focus {
+  /* Your styles here */
+  outline: 2px solid #4A90E2; /* Example for blue outline */
+  background-color: #f0f8ff; /* Example for light background color */
+  /* Add any additional styles */
+}
+.loading-container{
+  display:flex;
+  justify-content: center;
+}
+button{
+  margin-left:10px;
+}

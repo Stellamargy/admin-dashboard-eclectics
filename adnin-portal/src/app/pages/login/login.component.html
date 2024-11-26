@@ -36,7 +36,7 @@
             Password must be at least 4 characters long.
           </div>
         </div>
-        <mat-form-field appearance="outline" class="full-width">
+        <!-- <mat-form-field appearance="outline" class="full-width">
           <mat-label>Password</mat-label>
 
           <input
@@ -46,20 +46,35 @@
             required
             formControlName="password"
           />
+        </mat-form-field> -->
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Enter your password</mat-label>
+          <input
+            matInput
+            [type]="hide() ? 'password' : 'text'"
+            formControlName="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="clickEvent($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide()"
+            type="button"
+          >
+            <mat-icon>{{ hide() ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
         </mat-form-field>
 
         <!-- Login Button -->
-        <button
-          mat-raised-button
-          color="primary"
-          class="login-button"
-          
-        >
-          Login
-        </button>
+        <button class="login-button" type="submit">Login</button>
 
         <p class="error-message" *ngIf="errorMessage">{{ errorMessage }}</p>
       </form>
+      <div *ngIf="loading" class="spinner-container">
+        <mat-progress-spinner mode="indeterminate" [diameter]="50"></mat-progress-spinner>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

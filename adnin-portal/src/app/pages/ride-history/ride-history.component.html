@@ -1,0 +1,34 @@
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <!-- Distance Column -->
+      <ng-container matColumnDef="distance">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Distance</th>
+        <td mat-cell *matCellDef="let row">{{ row.distance }}</td>
+      </ng-container>
+  
+      <!-- Total Amount Column -->
+      <ng-container matColumnDef="totalAmount">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Amount</th>
+        <td mat-cell *matCellDef="let row">{{ row.totalAmount | currency }}</td>
+      </ng-container>
+  
+      <!-- Price Column -->
+      <ng-container matColumnDef="price">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Price</th>
+        <td mat-cell *matCellDef="let row">{{ row.price | currency }}</td>
+      </ng-container>
+  
+      <!-- Vehicle Type Column -->
+      <ng-container matColumnDef="vehicleType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Vehicle Type</th>
+        <td mat-cell *matCellDef="let row">{{ row.vehicleType }}</td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  
+    <!-- Table Pagination -->
+    <!-- <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator> -->
+  </div>
+  
